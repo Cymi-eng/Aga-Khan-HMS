@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
+import Register from "@/pages/Register";
 
 
 
@@ -17,6 +18,7 @@ export default function AppRoutes() {
        
       {/* Redirect root to login */}
       <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<Register />} />
 
       {/* Public Routes */}
       {/* <Route path="/login" element={<Login />} />
