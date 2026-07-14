@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
-// import {
-//   PhoneCall,
-//   Mail,
-//   MapPin,
-//   Clock,
-//   Facebook,
-//   Instagram,
-//   Twitter,
-//   Youtube,
-// } from "lucide-react";
+import {
+  PhoneCall,
+  Mail,
+  MapPin,
+  Clock,
+  // Facebook,
+  // Instagram,
+  // Twitter,
+  // Youtube,
+} from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#003b63] text-blue-100">
+    <footer className="bg-[#1a365d] text-white/70">
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
 
@@ -20,23 +20,46 @@ export default function Footer() {
 
         <div>
           <h3 className="text-2xl font-black text-white">
-            Aga Khan <span className="text-sky-400">Hospital</span>
+            Aga Khan <span className="text-[#adc7f7]">Hospital</span>
           </h3>
 
-          <p className="mt-5 text-sm leading-7 text-blue-200">
+          <p className="mt-5 text-sm leading-7 text-white/60">
             Delivering exceptional healthcare through experienced specialists,
             advanced medical technology, and compassionate, patient-centered
             care.
           </p>
 
-          <div className="flex items-center gap-4 mt-6">
-            <a href="#" aria-label="Facebook"/>
-            
-            <a href="#" aria-label="Instagram"/>
-           
-            <a href="#" aria-label="Twitter" />
-           
-            <a href="#" aria-label="YouTube"  />
+          <div className="flex items-center gap-3 mt-6">
+            <a
+              href="#"
+              aria-label="Facebook"
+              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+            </a>
+
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              
+            </a>
+
+            <a
+              href="#"
+              aria-label="Twitter"
+              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+             
+            </a>
+
+            <a
+              href="#"
+              aria-label="YouTube"
+              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              
+            </a>
           </div>
         </div>
 
@@ -74,18 +97,22 @@ export default function Footer() {
           <h4 className="text-white font-bold text-lg mb-6">Get In Touch</h4>
           <ul className="space-y-4 text-sm">
             <li className="flex items-start gap-3">
-              
+              <MapPin size={18} className="mt-0.5 shrink-0 text-[#adc7f7]" />
               <span>3rd Parklands Avenue, Nairobi, Kenya</span>
             </li>
+
             <li className="flex items-start gap-3">
-             
+              <PhoneCall size={18} className="mt-0.5 shrink-0 text-[#adc7f7]" />
               <a href="tel:+254111911911" className="hover:text-white transition">+254 111 911 911</a>
             </li>
+
             <li className="flex items-start gap-3">
-            
+              <Mail size={18} className="mt-0.5 shrink-0 text-[#adc7f7]" />
               <a href="mailto:info@agakhanhospital.org" className="hover:text-white transition">info@agakhanhospital.org</a>
             </li>
+
             <li className="flex items-start gap-3">
+              <Clock size={18} className="mt-0.5 shrink-0 text-[#adc7f7]" />
               <span>Emergency: Open 24/7</span>
             </li>
           </ul>
@@ -96,7 +123,7 @@ export default function Footer() {
       {/* ================= BOTTOM BAR ================= */}
 
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-blue-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
 
           <p>© {new Date().getFullYear()} Aga Khan Hospital. All rights reserved.</p>
 
