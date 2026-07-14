@@ -59,19 +59,19 @@ export default function Home() {
             <div className="flex items-center gap-5 mt-14">
 
               <img
-                src="https://randomuser.me/api/portraits/women/45.jpg"
+                src="45.jpg"
                 className="w-12 h-12 rounded-full border-2 border-white"
                 alt="Patient"
               />
 
               <img
-                src="https://randomuser.me/api/portraits/men/40.jpg"
+                src="40.jpg"
                 className="w-12 h-12 rounded-full border-2 border-white -ml-4"
                 alt="Patient"
               />
 
               <img
-                src="https://randomuser.me/api/portraits/women/60.jpg"
+                src="60.jpg"
                 className="w-12 h-12 rounded-full border-2 border-white -ml-4"
                 alt="Patient"
               />
