@@ -95,7 +95,7 @@ export default function Home() {
           <div className="relative">
 
             <img
-              src=""
+              src="hospital.jpg"
               alt="Hospital Team"
               className="rounded-[40px] shadow-2xl object-cover w-full h-[700px]"
             />
