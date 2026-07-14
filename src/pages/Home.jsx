@@ -10,10 +10,16 @@ import {
   Users,
   Quote,
 } from "lucide-react";
+import Navbar from "@/components/Navbar";
+
 
 export default function Home() {
   return (
+    <>
+    
+   
     <div className="bg-white">
+         <Navbar/>
 
       {/* ================= HERO ================= */}
 
@@ -433,5 +439,6 @@ export default function Home() {
       </section>
 
     </div>
+    </>
   );
 }

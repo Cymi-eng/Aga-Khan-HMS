@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 
 
+
+
 // import Login from "@/pages/Login";
 // import ForgotPassword from "@/pages/ForgotPassword";
 // import Dashboard from "@/pages/dashboard/Dashboard";
@@ -10,7 +12,9 @@ import Home from "@/pages/Home";
 
 export default function AppRoutes() {
   return (
+    
     <Routes>
+       
       {/* Redirect root to login */}
       <Route path="/" element={<Home />} />
 
