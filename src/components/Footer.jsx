@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom";
-import {
-  PhoneCall,
-  Mail,
-  MapPin,
-  Clock,
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube,
-} from "lucide-react";
+// import {
+//   PhoneCall,
+//   Mail,
+//   MapPin,
+//   Clock,
+//   Facebook,
+//   Instagram,
+//   Twitter,
+//   Youtube,
+// } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-[#003b63] text-blue-100">
-
-      {/* ================= MAIN FOOTER ================= */}
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
 
@@ -32,18 +30,13 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-4 mt-6">
-            <a href="#" aria-label="Facebook" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition">
-              <Facebook size={16} />
-            </a>
-            <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition">
-              <Instagram size={16} />
-            </a>
-            <a href="#" aria-label="Twitter" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition">
-              <Twitter size={16} />
-            </a>
-            <a href="#" aria-label="YouTube" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-sky-500 transition">
-              <Youtube size={16} />
-            </a>
+            <a href="#" aria-label="Facebook"/>
+            
+            <a href="#" aria-label="Instagram"/>
+           
+            <a href="#" aria-label="Twitter" />
+           
+            <a href="#" aria-label="YouTube"  />
           </div>
         </div>
 
@@ -81,19 +74,18 @@ export default function Footer() {
           <h4 className="text-white font-bold text-lg mb-6">Get In Touch</h4>
           <ul className="space-y-4 text-sm">
             <li className="flex items-start gap-3">
-              <MapPin size={18} className="mt-0.5 shrink-0 text-sky-400" />
+              
               <span>3rd Parklands Avenue, Nairobi, Kenya</span>
             </li>
             <li className="flex items-start gap-3">
-              <PhoneCall size={18} className="mt-0.5 shrink-0 text-sky-400" />
+             
               <a href="tel:+254111911911" className="hover:text-white transition">+254 111 911 911</a>
             </li>
             <li className="flex items-start gap-3">
-              <Mail size={18} className="mt-0.5 shrink-0 text-sky-400" />
+            
               <a href="mailto:info@agakhanhospital.org" className="hover:text-white transition">info@agakhanhospital.org</a>
             </li>
             <li className="flex items-start gap-3">
-              <Clock size={18} className="mt-0.5 shrink-0 text-sky-400" />
               <span>Emergency: Open 24/7</span>
             </li>
           </ul>
