@@ -71,13 +71,6 @@ export default function Navbar() {
             Book Appointment
           </button>
 
-          <Link
-            to="/login"
-            className="px-6 py-3 rounded-full border-2 border-[#005B96] text-[#005B96] hover:bg-[#005B96] hover:text-white transition font-semibold"
-          >
-            Staff Login
-          </Link>
-
         </div>
 
         {/* Mobile */}
