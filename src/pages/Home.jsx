@@ -314,10 +314,10 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
 
             {[
-              { name: "Dr. Sarah Kim", dept: "Cardiology", image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500" },
-              { name: "Dr. James Carter", dept: "Neurology", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500" },
-              { name: "Dr. Emily Johnson", dept: "Pediatrics", image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500" },
-              { name: "Dr. David Brown", dept: "Orthopedics", image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500" },
+             { name: "Dr. Sarah Kim", dept: "Cardiology", image: "/sarah.jpg" },
+              { name: "Dr. James Carter", dept: "Neurology", image: "/james.jpg" },
+              { name: "Dr. Emily Johnson", dept: "Pediatrics", image: "/emily.jpg" },
+              { name: "Dr. David Brown", dept: "Orthopedics", image: "/david.jpg" },
             ].map((doctor) => (
               <div
                 key={doctor.name}
