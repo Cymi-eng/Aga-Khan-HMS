@@ -8,9 +8,11 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-[#005B96] flex items-center justify-center text-white font-bold text-xl">
-            +
-          </div>
+          <img
+            src="/khan.logo.jpg"
+            alt="Aga Khan Hospital Logo"
+            className="w-12 h-12 rounded-xl object-cover"
+          />
 
           <div>
             <h1 className="font-bold text-xl text-[#005B96]">
