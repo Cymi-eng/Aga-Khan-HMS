@@ -22,7 +22,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-import { auth, db, googleProvider } from "../firebase/firebase";
+import { auth, db, googleProvider } from "../config/firebase";
 
 const AuthContext = createContext();
 
