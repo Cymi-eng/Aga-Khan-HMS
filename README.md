@@ -97,10 +97,16 @@ A modern, responsive Hospital Management System built with **React**, **Vite**, 
 ```text
 src/
 ├── assets/
+├── billing/
+├── common/
 ├── components/
+├── laboratory/
+├── pharmacy/
 ├── context/
 ├── lib/
 ├── pages/
+├── patients/
+├── reports/
 ├── routes/
 ├── services/
 ├── utils/
