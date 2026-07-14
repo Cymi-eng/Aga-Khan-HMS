@@ -3,17 +3,17 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
   ],
 
-  base: "/Aga-Khan-HMS/",
+  base: mode === "gh-pages" ? "/Aga-Khan-HMS/" : "/",
 
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));
