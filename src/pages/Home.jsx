@@ -95,7 +95,7 @@ export default function Home() {
           <div className="relative">
 
             <img
-              src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a41?w=900"
+              src=""
               alt="Hospital Team"
               className="rounded-[40px] shadow-2xl object-cover w-full h-[700px]"
             />
