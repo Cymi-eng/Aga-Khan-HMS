@@ -13,7 +13,6 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer"
 
-
 export default function Home() {
   return (
     <>
@@ -166,7 +165,7 @@ export default function Home() {
 
           <div>
             <img
-              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900"
+              src="/doctor.jpg"
               alt="Hospital"
               className="rounded-[35px] shadow-xl"
             />
