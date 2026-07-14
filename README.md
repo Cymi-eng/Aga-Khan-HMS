@@ -5,7 +5,7 @@ A modern, responsive Hospital Management System built with **React**, **Vite**, 
 
 ---
 
-## 🚀 Features
+##  Features
 
 ### Authentication
 
@@ -145,7 +145,7 @@ npm run dev
 
 ---
 
-## 👥 User Roles
+##  User Roles
 
 * Administrator
 * Doctor
@@ -157,7 +157,7 @@ npm run dev
 
 ---
 
-## 📅 Development Roadmap
+##  Development Roadmap
 
 ### Phase 1
 
@@ -189,7 +189,7 @@ npm run dev
 
 ---
 
-## 🎨 Design
+##  Design
 
 The interface follows a clean healthcare-inspired design with:
 
@@ -201,12 +201,12 @@ The interface follows a clean healthcare-inspired design with:
 * Intuitive navigation
 
 
-## 📄 License
+##  License
 
 This project is under the MIT license.
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Ian Cymi
