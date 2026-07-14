@@ -10,7 +10,7 @@ import { AuthProvider } from "@/context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/Aga-Khan-HMS">
+    <BrowserRouter>
       <AuthProvider>
         <App />
       </AuthProvider>
