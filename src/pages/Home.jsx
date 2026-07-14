@@ -55,13 +55,6 @@ export default function Home() {
                 Book Appointment
               </button>
 
-              <Link
-                to="/login"
-                className="border-2 border-[#005B96] text-[#005B96] hover:bg-[#005B96] hover:text-white px-8 py-4 rounded-full font-semibold transition"
-              >
-                Staff Login
-              </Link>
-
             </div>
 
             <div className="flex items-center gap-5 mt-14">
@@ -132,11 +125,6 @@ export default function Home() {
           <Link to="/facilities" className="flex items-center gap-3 hover:opacity-80 transition">
             <MapPin size={22} />
             <span className="font-medium">Our Locations</span>
-          </Link>
-
-          <Link to="/login" className="flex items-center gap-3 hover:opacity-80 transition">
-            <Clock size={22} />
-            <span className="font-medium">Patient Portal</span>
           </Link>
 
         </div>
@@ -288,10 +276,10 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
 
             {[
-              { title: "Expert Doctors", text: "Highly qualified specialists with years of experience.", emoji: "👨‍⚕️" },
-              { title: "Modern Equipment", text: "State-of-the-art technology for accurate diagnosis.", emoji: "🏥" },
-              { title: "24/7 Emergency", text: "Emergency medical services available all day.", emoji: "🚑" },
-              { title: "Patient First", text: "Compassionate and personalized healthcare.", emoji: "❤️" },
+              { title: "Expert Doctors", text: "Highly qualified specialists with years of experience." },
+              { title: "Modern Equipment", text: "State-of-the-art technology for accurate diagnosis." },
+              { title: "24/7 Emergency", text: "Emergency medical services available all day." },
+              { title: "Patient First", text: "Compassionate and personalized healthcare." },
             ].map((item) => (
               <div
                 key={item.title}
@@ -425,13 +413,6 @@ export default function Home() {
             <button className="bg-white text-[#005B96] px-8 py-4 rounded-full font-semibold hover:bg-slate-100 transition">
               Book Appointment
             </button>
-
-            <Link
-              to="/login"
-              className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-[#005B96] transition"
-            >
-              Staff Login
-            </Link>
 
           </div>
 
