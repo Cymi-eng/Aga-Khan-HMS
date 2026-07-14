@@ -99,9 +99,6 @@ src/
 ├── assets/
 ├── components/
 ├── context/
-├── data/
-├── hooks/
-├── layouts/
 ├── lib/
 ├── pages/
 ├── routes/
