@@ -4,14 +4,12 @@
   "version": "0.0.0",
   "type": "module",
 "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "lint": "eslint .",
-  "preview": "vite preview",
-  "predeploy": "npm run build:gh-pages",
-  "deploy": "gh-pages -d dist",
-  "build:gh-pages": "vite build --mode gh-pages"
-},
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "jest"
+  },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@fontsource-variable/geist": "^5.2.9",
