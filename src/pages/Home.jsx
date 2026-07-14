@@ -248,12 +248,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
 
             {[
-              { title: "Cardiology", icon: "❤️", desc: "Advanced diagnosis and treatment for heart conditions." },
-              { title: "Neurology", icon: "🧠", desc: "Comprehensive care for neurological disorders." },
-              { title: "Pediatrics", icon: "👶", desc: "Dedicated healthcare services for children." },
-              { title: "Orthopedics", icon: "🦴", desc: "Specialized treatment for bones and joints." },
-              { title: "Laboratory", icon: "🧪", desc: "Accurate diagnostic tests with modern equipment." },
-              { title: "Pharmacy", icon: "💊", desc: "Quality medicines and pharmaceutical care." },
+              { title: "Cardiology", desc: "Advanced diagnosis and treatment for heart conditions." },
+              { title: "Neurology", desc: "Comprehensive care for neurological disorders." },
+              { title: "Pediatrics", desc: "Dedicated healthcare services for children." },
+              { title: "Orthopedics", desc: "Specialized treatment for bones and joints." },
+              { title: "Laboratory", desc: "Accurate diagnostic tests with modern equipment." },
+              { title: "Pharmacy",desc: "Quality medicines and pharmaceutical care." },
             ].map((service) => (
               <div
                 key={service.title}
