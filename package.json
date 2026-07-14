@@ -16,7 +16,6 @@
     "@fontsource-variable/geist": "^5.2.9",
     "@fontsource/atkinson-hyperlegible-next": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
-    "@fontsourcevite": "^4.3.2",
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
