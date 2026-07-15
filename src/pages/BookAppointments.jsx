@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarDays, Clock, UserRound, Stethoscope } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -12,6 +12,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
 export default function BookAppointment() {
   const { currentUser } = useAuth();
@@ -62,15 +64,47 @@ export default function BookAppointment() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    toast.success(
-      "Appointment request submitted successfully."
-    );
+  if (!currentUser) {
+    toast.error("Please login first.");
+    return;
+  }
 
-    console.log(formData);
-  };
+  try {
+    await addDoc(collection(db, "appointments"), {
+      patientId: currentUser.uid,
+      patientName: formData.patientName,
+      email: formData.email,
+      phone: formData.phone,
+      department: formData.department,
+      doctor: formData.doctor,
+      date: formData.date,
+      time: formData.time,
+      reason: formData.reason,
+      status: "Pending",
+      createdAt: serverTimestamp(),
+    });
+
+    toast.success("Appointment booked successfully!");
+
+    setFormData({
+      patientName: currentUser.displayName || "",
+      email: currentUser.email || "",
+      phone: "",
+      department: "",
+      doctor: "",
+      date: "",
+      time: "",
+      reason: "",
+    });
+
+  } catch (error) {
+    console.error("Booking Error:", error);
+    toast.error(error.message);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-100 pt-32 pb-16 px-5">
