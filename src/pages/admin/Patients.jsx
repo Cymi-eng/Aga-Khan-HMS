@@ -7,7 +7,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { db } from "@/firebase/firebase";
+import { db } from "@/config/firebase";
 
 export default function AdminPatients() {
   const [patients, setPatients] = useState([]);
