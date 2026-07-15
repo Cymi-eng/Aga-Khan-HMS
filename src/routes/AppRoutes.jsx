@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import Register from "@/pages/Register";
+import BookAppointment from "@/pages/BookAppointments";
+import ProtectedRoute from "@/routes/ProtectedRoutes";
 
 
 
@@ -15,28 +17,29 @@ export default function AppRoutes() {
   return (
     
     <Routes>
-       
-      {/* Redirect root to login */}
-      <Route path="/" element={<Home />} />
-      <Route path="/register" element={<Register />} />
+  <Route path="/" element={<Home />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+  <Route path="/forgot-password" element={<ForgotPassword />} />
+
+  <Route
+  path="/book-appointment"
+  element={
+    <ProtectedRoute>
+      <BookAppointment />
+    </ProtectedRoute>
+  }
+/>
+
+  <Route
+    path="/book-appointment"
+    element={
+      <ProtectedRoute>
+        <BookAppointment />
+      </ProtectedRoute>
+    }
     
-
-      {/* Public Routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-
-      {/* Protected Routes
-      {/* <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Catch-all */}
-      {/* <Route path="*" element={<Navigate to="/login" replace />} /> */} 
-    </Routes>
+  />
+</Routes>
   );
 }

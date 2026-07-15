@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +21,11 @@ import { useAuth } from "@/context/AuthContext";
 const Login = () => {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -48,7 +50,7 @@ const Login = () => {
 
       toast.success("Welcome back!");
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       if (err.code !== "auth/popup-closed-by-user") {
         toast.error("Google sign in failed.");
@@ -71,7 +73,7 @@ const Login = () => {
 
       toast.success("Login successful!");
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       let message = "Failed to login.";
 
@@ -106,14 +108,8 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-100 via-white to-blue-100 p-5">
       <Card className="w-full max-w-md shadow-xl border-0">
-
         <CardHeader className="text-center space-y-3">
-
-          <img
-            src="/logo.png"
-            alt="Aga Khan"
-            className="h-16 w-16 mx-auto"
-          />
+          <img src="/logo.png" alt="Aga Khan" className="h-16 w-16 mx-auto" />
 
           <CardTitle className="text-3xl font-bold text-blue-700">
             Welcome Back
@@ -122,11 +118,9 @@ const Login = () => {
           <CardDescription>
             Login to Aga Khan Hospital Management System
           </CardDescription>
-
         </CardHeader>
 
         <CardContent>
-
           {error && (
             <div className="mb-4 rounded-md bg-red-100 border border-red-300 text-red-700 p-3 text-sm">
               {error}
@@ -144,7 +138,6 @@ const Login = () => {
               className="h-5"
               alt="Google"
             />
-
             Continue with Google
           </Button>
 
@@ -160,11 +153,7 @@ const Login = () => {
             </div>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-          >
-
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label>Email Address</Label>
 
@@ -179,11 +168,9 @@ const Login = () => {
             </div>
 
             <div>
-
               <Label>Password</Label>
 
               <div className="relative">
-
                 <Input
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -195,31 +182,21 @@ const Login = () => {
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setShowPassword(!showPassword)
-                  }
+                  onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  {showPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
-
               </div>
-
             </div>
 
             <div className="flex justify-end">
-
               <Link
                 to="/forgot-password"
                 className="text-sm text-blue-700 hover:underline"
               >
                 Forgot Password?
               </Link>
-
             </div>
 
             <Button
@@ -236,28 +213,20 @@ const Login = () => {
                 "Sign In"
               )}
             </Button>
-
           </form>
-
         </CardContent>
 
         <CardFooter className="justify-center">
-
           <p className="text-sm text-gray-600">
-
             Don't have an account?
-
             <Link
               to="/register"
               className="ml-2 text-blue-700 font-semibold hover:underline"
             >
               Create Account
             </Link>
-
           </p>
-
         </CardFooter>
-
       </Card>
     </div>
   );
