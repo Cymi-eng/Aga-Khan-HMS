@@ -5,7 +5,7 @@ import Register from "@/pages/Register";
 
 
 
-// import Login from "@/pages/Login";
+import Login from "@/pages/Login";
 // import ForgotPassword from "@/pages/ForgotPassword";
 // import Dashboard from "@/pages/dashboard/Dashboard";
 
@@ -19,6 +19,7 @@ export default function AppRoutes() {
       {/* Redirect root to login */}
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<Register />} />
+      <Route path="/login" element={<Login />} />
 
       {/* Public Routes */}
       {/* <Route path="/login" element={<Login />} />
