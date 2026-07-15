@@ -14,8 +14,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/config/firebase";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function BookAppointment() {
+    const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -87,7 +91,7 @@ const handleSubmit = async (e) => {
       createdAt: serverTimestamp(),
     });
 
-    toast.success("Appointment booked successfully!");
+    navigate("/appointment-success");
 
     setFormData({
       patientName: currentUser.displayName || "",
