@@ -12,6 +12,7 @@ import Appointments from "@/pages/admin/Appointments";
 import Patients from "@/pages/admin/Patients";
 import Doctors from "@/pages/admin/Doctors";
 import Departments from "@/pages/admin/Departments";
+import AppointmentSuccess from "@/pages/AppointmentSuccess";
 
 
 
@@ -35,6 +36,7 @@ export default function AppRoutes() {
   <Route path="/about" element={<About />} />
   <Route path="/services" element={<Services />} />
   
+
   <Route path="/admin" element={<AdminLayout />}>
   <Route index element={<AdminDashboard />} />
   <Route path="appointments" element={<Appointments />} />
@@ -42,9 +44,10 @@ export default function AppRoutes() {
   <Route path="doctors" element={<Doctors />} />
   <Route path="departments" element={<Departments />} />
 </Route>
+<Route path="/appointment-success" element={<AppointmentSuccess />}/>
 
   <Route
-  path="/book-appointment"
+ path="/book-appointment"
   element={
     <ProtectedRoute>
       <BookAppointment />
