@@ -6,6 +6,13 @@ import ProtectedRoute from "@/routes/ProtectedRoutes";
 import MyAppointments from "@/pages/MyAppointments";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
+import AdminLayout from "@/layouts/AdminLayout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import Appointments from "@/pages/admin/Appointments";
+import Patients from "@/pages/admin/Patients";
+import Doctors from "@/pages/admin/Doctors";
+import Departments from "@/pages/admin/Departments";
+
 
 
 
@@ -27,6 +34,14 @@ export default function AppRoutes() {
   <Route path="/my-appointments" element={<MyAppointments />} />
   <Route path="/about" element={<About />} />
   <Route path="/services" element={<Services />} />
+  
+  <Route path="/admin" element={<AdminLayout />}>
+  <Route index element={<AdminDashboard />} />
+  <Route path="appointments" element={<Appointments />} />
+  <Route path="patients" element={<Patients />} />
+  <Route path="doctors" element={<Doctors />} />
+  <Route path="departments" element={<Departments />} />
+</Route>
 
   <Route
   path="/book-appointment"
