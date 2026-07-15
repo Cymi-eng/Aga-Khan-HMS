@@ -5,6 +5,7 @@ import BookAppointment from "@/pages/BookAppointments";
 import ProtectedRoute from "@/routes/ProtectedRoutes";
 import MyAppointments from "@/pages/MyAppointments";
 import About from "@/pages/About";
+import Services from "@/pages/Services";
 
 
 
@@ -25,6 +26,7 @@ export default function AppRoutes() {
   <Route path="/forgot-password" element={<ForgotPassword />} />
   <Route path="/my-appointments" element={<MyAppointments />} />
   <Route path="/about" element={<About />} />
+  <Route path="/services" element={<Services />} />
 
   <Route
   path="/book-appointment"
