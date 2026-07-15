@@ -47,7 +47,7 @@ export default function Home() {
               </p>
                 <button
                   onClick={() => navigate("/book-appointment")}
-                  className="bg-white text-[#1a365d] px-8 py-4 rounded-lg font-semibold text-center hover:bg-white/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  className="bg-white text-[#1a365d] px-2 py-2 rounded-lg font-semibold text-center hover:bg-white/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                   <CalendarDays size={20} />
                   Book Appointment
@@ -172,7 +172,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="tel:+254111911911"
+                href="tel:+254704019505"
                 className="flex items-center justify-center gap-2 bg-[#ba1a1a] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#ba1a1a]/90 transition-colors"
               >
                 <PhoneCall size={18} />

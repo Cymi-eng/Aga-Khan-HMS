@@ -48,7 +48,7 @@ const Register = () => {
     try {
       await loginWithGoogle();
 
-      toast.success("Welcome to Aga Khan HMS!");
+      toast.success("Welcome to Aga Khan!");
 
       navigate("/");
     } catch (err) {
@@ -118,14 +118,14 @@ const Register = () => {
 
           <div className="flex justify-center">
             <img
-              src="/logo.png"
+              src="/khan.logo.jpg"
               alt="Aga Khan Hospital"
               className="h-16 w-16 object-contain"
             />
           </div>
 
           <CardTitle className="text-3xl font-bold text-blue-700">
-            Aga Khan HMS
+            Aga Khan
           </CardTitle>
 
           <CardDescription>

@@ -109,7 +109,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-100 via-white to-blue-100 p-5">
       <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="text-center space-y-3">
-          <img src="/logo.png" alt="Aga Khan" className="h-16 w-16 mx-auto" />
+          <img src="khan.logo.jpg" alt="Aga Khan" className="h-16 w-16 mx-auto" />
 
           <CardTitle className="text-3xl font-bold text-blue-700">
             Welcome Back
