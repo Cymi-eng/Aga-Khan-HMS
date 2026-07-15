@@ -95,6 +95,12 @@ export default function Navbar() {
             Login
           </Link>
         )}
+        <Link
+            to="/my-appointments"
+            className="px-4 py-2 rounded-lg hover:bg-gray-100"
+          >
+            My Appointments
+        </Link>
         <a
           href="tel:+254111911911"
           className="flex items-center gap-2 bg-[#ba1a1a] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#ba1a1a]/90 active:scale-95 transition-all"
@@ -102,6 +108,7 @@ export default function Navbar() {
           <PhoneCall size={16} />
           Emergency
         </a>
+
       </div>
 
       {/* MOBILE MENU BUTTON */}
