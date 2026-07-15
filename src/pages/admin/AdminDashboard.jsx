@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 
-import { db } from "@/firebase/firebase";
+import { db } from "@/config/firebase";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
