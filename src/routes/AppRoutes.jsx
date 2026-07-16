@@ -37,7 +37,7 @@ export default function AppRoutes() {
   <Route path="/services" element={<Services />} />
   
 
-  <Route path="/admin/dashboard" element={<AdminLayout />}>
+  <Route path="/admin" element={<AdminLayout />}>
   <Route index element={<AdminDashboard />} />
   <Route path="appointments" element={<Appointments />} />
   <Route path="patients" element={<Patients />} />

@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/card";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
-import { auth } from "@/config/firebase";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
@@ -86,7 +85,7 @@ const Login = () => {
     toast.success("Login successful!");
 
     if (adminDoc.exists()) {
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/admin", { replace: true });
     } else {
       navigate(from, { replace: true });
     }
