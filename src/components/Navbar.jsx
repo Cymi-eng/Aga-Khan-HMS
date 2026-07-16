@@ -16,7 +16,6 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { label: "Find a Doctor", to: "/doctors" },
     { label: "Our Services", to: "/services" },
     { label: "About", to: "/about" },
   ];
