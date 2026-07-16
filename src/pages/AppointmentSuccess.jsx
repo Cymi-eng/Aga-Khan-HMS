@@ -31,7 +31,7 @@ export default function AppointmentSuccess() {
         <div className="flex gap-4">
 
           <Link
-            to="/appointments"
+            to="/my-appointments"
             className="bg-blue-700 text-white px-5 py-2 rounded"
           >
             My Appointments

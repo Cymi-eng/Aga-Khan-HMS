@@ -3,165 +3,240 @@ import Footer from "@/components/Footer";
 
 import {
   HeartPulse,
+  ShieldCheck,
   Stethoscope,
   Users,
-  ShieldCheck,
-  Clock,
-  Building2,
+  Target,
+  Eye,
+  HeartHandshake,
+  ArrowRight,
 } from "lucide-react";
 
-const TOKENS = {
-  paper: "#F7F3EA",
-  card: "#FFFFFF",
-  ink: "#211F1A",
-  inkSoft: "#6B6459",
-  teal: "#2E6659",
-  tealDeep: "#1E463D",
-  tealTint: "#E4EEE9",
-  rust: "#9B4A2E",
-  rustTint: "#F3E2D8",
-  line: "#DDD5C3",
-};
-
-const stats = [
-  { label: "Years serving the community", value: "60+", icon: Clock },
-  { label: "Specialist departments", value: "18", icon: Stethoscope },
-  { label: "Patients cared for annually", value: "120K+", icon: Users },
-  { label: "Accredited care standards", value: "ISO", icon: ShieldCheck },
-];
-
-const values = [
-  {
-    title: "Patient-first care",
-    body: "Every appointment, referral and follow-up is designed around the patient's time and wellbeing, not administrative convenience.",
-    icon: HeartPulse,
-  },
-  {
-    title: "Clinical excellence",
-    body: "Our specialists work across cardiology, general practice, paediatrics and diagnostics, holding every case to the same rigorous standard.",
-    icon: Stethoscope,
-  },
-  {
-    title: "Community trust",
-    body: "As a not-for-profit health network, we reinvest in facilities, training and outreach so quality care stays within reach.",
-    icon: Building2,
-  },
-];
-
-export default function AboutPage() {
+export default function About() {
     
+    
+  const values = [
+    {
+      icon: HeartHandshake,
+      title: "Compassion",
+      description:
+        "We treat every patient with dignity, empathy, and respect while delivering exceptional healthcare.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Integrity",
+      description:
+        "We uphold honesty, transparency, and accountability in every medical decision.",
+    },
+    {
+      icon: Users,
+      title: "Teamwork",
+      description:
+        "Our multidisciplinary teams work together to provide coordinated patient-centered care.",
+    },
+  ];
+
+  const departments = [
+    "Cardiology",
+    "Neurology",
+    "Pediatrics",
+    "Oncology",
+    "Orthopedics",
+    "Emergency Medicine",
+    "Radiology",
+    "Laboratory Services",
+  ];
+
   return (
-   <>
+    <>
     <Navbar/>
-    <div
-      className="min-h-screen pb-16"
-      style={{ background: TOKENS.paper, color: TOKENS.ink }}
-    >
-      
+    <div className="bg-[#faf9fd] text-[#1a1c1e]">
 
-      <header className="max-w-4xl mx-auto px-5 md:px-8 pt-16 pb-10 text-center mt-6">
-        
-        <h1
-          style={{
-            fontFamily: "'Lora', serif",
-            fontSize: 34,
-            fontWeight: 700,
-            color: TOKENS.tealDeep,
-          }}
-        >
-          About Aga Khan Hospital
-        </h1>
-        <p
-          className="mt-4 max-w-2xl mx-auto"
-          style={{ fontSize: 15, lineHeight: 1.7, color: TOKENS.inkSoft }}
-        >
-          We are a community-rooted hospital network committed to accessible,
-          modern healthcare — pairing experienced specialists with a digital
-          patient experience that makes booking, tracking and managing care
-          simple.
-        </p>
-      </header>
+      {/* HERO */}
+      <section className="bg-[#002045] text-white py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28">
+          <p className="uppercase tracking-widest text-blue-200 mb-4">
+            About Us
+          </p>
 
-      <section className="max-w-4xl mx-auto px-5 md:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map(({ label, value, icon: Icon }) => (
-            <div
-              key={label}
-              className="rounded-xl p-4 text-center"
-              style={{ background: TOKENS.card, border: `1px solid ${TOKENS.line}` }}
-            >
-              <Icon size={18} style={{ color: TOKENS.teal, margin: "0 auto 8px" }} />
-              <div
-                style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 22,
-                  fontWeight: 700,
-                  color: TOKENS.tealDeep,
-                }}
-              >
-                {value}
-              </div>
-              <div style={{ fontSize: 12, color: TOKENS.inkSoft, marginTop: 4 }}>
-                {label}
-              </div>
-            </div>
-          ))}
+          <h1 className="text-5xl md:text-6xl font-bold max-w-3xl leading-tight">
+            Excellence in Healthcare,
+            <br />
+            Compassion in Every Visit.
+          </h1>
+
+          <p className="mt-8 text-lg text-gray-200 max-w-2xl leading-8">
+            We are committed to delivering world-class healthcare through
+            innovation, highly qualified specialists, and patient-centered
+            services that place your wellbeing first.
+          </p>
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-5 md:px-8 mt-14">
-        <h2
-          style={{
-            fontFamily: "'Lora', serif",
-            fontSize: 24,
-            fontWeight: 700,
-            color: TOKENS.ink,
-          }}
-        >
-          What guides our care
-        </h2>
-        <div className="mt-6 space-y-4">
-          {values.map(({ title, body, icon: Icon }) => (
-            <div
-              key={title}
-              className="flex gap-4 rounded-xl p-5"
-              style={{ background: TOKENS.card, border: `1px solid ${TOKENS.line}` }}
-            >
+      {/* WHO WE ARE */}
+      <section className="py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28 grid lg:grid-cols-2 gap-16 items-center">
+
+          <div>
+            <img
+              src="stesthoscope.jpg"
+              alt="Hospital"
+              className="rounded-3xl shadow-xl"
+            />
+          </div>
+
+          <div>
+
+            <h2 className="text-4xl font-bold mb-6">
+              Delivering Trusted Healthcare Since Excellence Began
+            </h2>
+
+            <p className="text-gray-600 leading-8 mb-6">
+              Our hospital is dedicated to providing exceptional medical care
+              through advanced technology, experienced healthcare professionals,
+              and a patient-first philosophy.
+            </p>
+
+            <p className="text-gray-600 leading-8">
+              From preventive care and specialist consultations to emergency
+              treatment and surgical services, we strive to improve lives every
+              day through quality, compassion, and continuous innovation.
+            </p>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* MISSION VISION */}
+      <section className="bg-white py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28 grid md:grid-cols-2 gap-10">
+
+          <div className="border rounded-3xl p-10">
+            <Target className="text-[#002045]" size={42} />
+            <h3 className="text-2xl font-bold mt-6 mb-4">
+              Our Mission
+            </h3>
+
+            <p className="text-gray-600 leading-8">
+              To provide accessible, compassionate, and high-quality healthcare
+              services while improving the health and wellbeing of our
+              communities.
+            </p>
+          </div>
+
+          <div className="border rounded-3xl p-10">
+            <Eye className="text-[#002045]" size={42} />
+
+            <h3 className="text-2xl font-bold mt-6 mb-4">
+              Our Vision
+            </h3>
+
+            <p className="text-gray-600 leading-8">
+              To be a leading healthcare institution recognized for clinical
+              excellence, innovation, and outstanding patient experiences.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* VALUES */}
+
+      <section className="py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28">
+
+          <h2 className="text-4xl font-bold text-center mb-14">
+            Our Core Values
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+
+            {values.map((value, index) => (
               <div
-                className="flex items-center justify-center rounded-full flex-shrink-0"
-                style={{ width: 44, height: 44, background: TOKENS.tealTint }}
+                key={index}
+                className="bg-white border rounded-3xl p-8 hover:shadow-lg transition"
               >
-                <Icon size={20} style={{ color: TOKENS.tealDeep }} />
-              </div>
-              <div>
-                <h3 style={{ fontFamily: "'Lora', serif", fontSize: 17, fontWeight: 600 }}>
-                  {title}
+                <value.icon
+                  size={42}
+                  className="text-[#002045]"
+                />
+
+                <h3 className="font-bold text-xl mt-6 mb-3">
+                  {value.title}
                 </h3>
-                <p style={{ fontSize: 14, color: TOKENS.inkSoft, marginTop: 4, lineHeight: 1.6 }}>
-                  {body}
+
+                <p className="text-gray-600 leading-7">
+                  {value.description}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+
+          </div>
+
         </div>
       </section>
 
-      <section
-        className="max-w-4xl mx-auto px-5 md:px-8 mt-14 rounded-xl p-8 text-center"
-        style={{ background: TOKENS.tealDeep, color: "#fff" }}
-      >
-        <h2 style={{ fontFamily: "'Lora', serif", fontSize: 22, fontWeight: 700 }}>
-          A hospital portal built around you
-        </h2>
-        <p className="mt-3 max-w-xl mx-auto" style={{ fontSize: 14, opacity: 0.85, lineHeight: 1.7 }}>
-          This platform lets patients book appointments, track medical records
-          and stay in touch with their care team, while our staff manage
-          scheduling and departments in one place.
-        </p>
+      {/* DEPARTMENTS */}
+
+      <section className="bg-[#f4f3f7] py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28">
+
+          <h2 className="text-4xl font-bold text-center mb-16">
+            Clinical Departments
+          </h2>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            {departments.map((dept) => (
+              <div
+                key={dept}
+                className="bg-white rounded-2xl border p-6 flex items-center gap-4"
+              >
+                <Stethoscope className="text-[#002045]" />
+
+                <span className="font-medium">
+                  {dept}
+                </span>
+              </div>
+            ))}
+
+          </div>
+
+        </div>
       </section>
-     </div>  
-      <Footer/>
-      </>
-   
+
+      {/* CTA */}
+
+      <section className="bg-[#002045] text-white py-24">
+
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28 text-center">
+
+          <HeartPulse
+            className="mx-auto mb-6"
+            size={50}
+          />
+
+          <h2 className="text-4xl font-bold mb-6">
+            Your Health Is Our Priority
+          </h2>
+
+          <p className="max-w-2xl mx-auto text-gray-300 leading-8 mb-10">
+            Experience trusted healthcare delivered by experienced specialists
+            using modern technology and compassionate care.
+          </p>
+
+          <button className="bg-white text-[#002045] px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto hover:bg-gray-100 transition">
+            Book Appointment
+            <ArrowRight size={18} />
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+    <Footer/>
+    </>
   );
 }

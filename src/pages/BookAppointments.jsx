@@ -78,16 +78,16 @@ const handleSubmit = async (e) => {
 
   try {
     await addDoc(collection(db, "appointments"), {
-      patientId: currentUser.uid,
+      userId: currentUser.uid,
       patientName: formData.patientName,
       email: formData.email,
       phone: formData.phone,
       department: formData.department,
-      doctor: formData.doctor,
+      doctorName: formData.doctor,
       date: formData.date,
       time: formData.time,
       reason: formData.reason,
-      status: "Pending",
+      status: "pending",
       createdAt: serverTimestamp(),
     });
 

@@ -1,512 +1,340 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  HeartPulse,
-  Stethoscope,
-  MapPin,
-  CalendarPlus,
-  Pencil,
-  ChevronRight,
-  Plus,
-  X,
-  FlaskConical,
-  Pill,
-  Bell,
-  User,
-  LayoutGrid,
-  MessageCircle,
-} from "lucide-react";
-
-import { useAuth } from "@/context/AuthContext";
-import {
   collection,
   query,
   where,
-  orderBy,
   onSnapshot,
+  doc,
+  deleteDoc,
+  orderBy,
 } from "firebase/firestore";
+import {
+  Search,
+  CalendarDays,
+  Clock,
+  Stethoscope,
+  XCircle,
+  CheckCircle2,
+  AlertCircle,
+  Hourglass,
+  RotateCcw,
+  Trash2,
+  CalendarX,
+} from "lucide-react";
 import { db } from "@/config/firebase";
+import { useAuth } from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const TOKENS = {
-  paper: "#F7F3EA",
-  card: "#FFFFFF",
-  ink: "#211F1A",
-  inkSoft: "#6B6459",
-  teal: "#2E6659",
-  tealDeep: "#1E463D",
-  tealTint: "#E4EEE9",
-  rust: "#9B4A2E",
-  rustTint: "#F3E2D8",
-  line: "#DDD5C3",
-};
+/*
+  Assumed Firestore "appointments" document shape:
+  {
+    userId: string,          // matches auth uid, used to filter to current user
+    doctorName: string,
+    department: string,
+    date: string,            // e.g. "2026-07-20"
+    time: string,            // e.g. "10:30 AM"
+    status: "pending" | "approved" | "rejected" | "cancelled",
+    reason: string,          // optional visit reason
+    createdAt: Timestamp,
+  }
+*/
 
-function Stub({ appt }) {
-  return (
-    <div
-      className="flex md:flex-col items-center md:items-stretch justify-between md:justify-start md:w-[132px] md:pl-6 relative pt-4 md:pt-0 mt-4 md:mt-0 border-t md:border-t-0 md:border-l"
-      style={{
-        borderColor: TOKENS.line,
-        borderStyle: "dashed",
-      }}
-    >
-      <span
-        className="hidden md:block absolute rounded-full"
-        style={{
-          width: 16,
-          height: 16,
-          background: TOKENS.paper,
-          left: -8,
-          top: -8,
-        }}
-      />
-
-      <span
-        className="hidden md:block absolute rounded-full"
-        style={{
-          width: 16,
-          height: 16,
-          background: TOKENS.paper,
-          left: -8,
-          bottom: -8,
-        }}
-      />
-
-      <div>
-        <div
-          className="uppercase tracking-widest"
-          style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 22,
-            fontWeight: 600,
-            color:
-              appt.status === "Approved"
-                ? TOKENS.teal
-                : TOKENS.rust,
-          }}
-        >
-          {appt.date}
-        </div>
-
-        <div
-          style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: 12,
-            color: TOKENS.inkSoft,
-          }}
-        >
-          {appt.time}
-        </div>
-      </div>
-
-      <div
-        className="hidden md:flex items-center justify-center mt-6 self-start"
-        style={{
-          width: 84,
-          height: 84,
-          borderRadius: "9999px",
-          border: `2px dashed ${
-            appt.status === "Approved"
-              ? TOKENS.teal
-              : TOKENS.rust
-          }`,
-          color:
-            appt.status === "Approved"
-              ? TOKENS.teal
-              : TOKENS.rust,
-          transform: "rotate(-9deg)",
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: "0.08em",
-          textAlign: "center",
-          lineHeight: 1.3,
-        }}
-      >
-        {appt.status.toUpperCase()}
-      </div>
-    </div>
-  );
-}
-
-function AppointmentCard({ appt, onAction }) {
-  return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{
-        background: TOKENS.card,
-        border: `1px solid ${TOKENS.line}`,
-      }}
-    >
-      <div className="p-6 flex flex-col md:flex-row gap-6">
-
-        <div className="flex-1">
-
-          <div className="flex items-start gap-4">
-
-            <div
-              className="flex items-center justify-center rounded-full"
-              style={{
-                width: 52,
-                height: 52,
-                background: TOKENS.tealTint,
-                color: TOKENS.tealDeep,
-                fontWeight: 700,
-              }}
-            >
-              {appt.doctor
-                ?.split(" ")
-                .map((n) => n[0])
-                .join("")
-                .substring(0, 2)}
-            </div>
-
-            <div>
-
-              <span
-                className="inline-block mb-2 text-xs font-semibold uppercase"
-                style={{
-                  color:
-                    appt.status === "Approved"
-                      ? TOKENS.teal
-                      : TOKENS.rust,
-                }}
-              >
-                {appt.status}
-              </span>
-
-              <h4
-                style={{
-                  fontFamily: "'Lora', serif",
-                  fontSize: 20,
-                  fontWeight: 700,
-                }}
-              >
-                {appt.doctor}
-              </h4>
-
-              <p
-                className="flex items-center gap-2 mt-1"
-                style={{
-                  color: TOKENS.inkSoft,
-                }}
-              >
-                <Stethoscope size={15} />
-                {appt.department}
-              </p>
-
-            </div>
-
-          </div>
-
-          <div
-            className="mt-5 pt-4 grid md:grid-cols-2 gap-3"
-            style={{
-              borderTop: `1px solid ${TOKENS.line}`,
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <MapPin size={15} />
-              Aga Khan Hospital
-            </div>
-
-            <div className="flex items-center gap-2">
-              <HeartPulse size={15} />
-              {appt.reason}
-            </div>
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-
-            <button
-              onClick={() =>
-                onAction("Appointment added to calendar.")
-              }
-              className="px-4 py-2 rounded-lg text-white"
-              style={{
-                background: TOKENS.teal,
-              }}
-            >
-              <CalendarPlus size={15} className="inline mr-2" />
-              Add to calendar
-            </button>
-
-            <button
-              onClick={() =>
-                onAction(appt.reason)
-              }
-              className="px-4 py-2 rounded-lg border"
-              style={{
-                borderColor: TOKENS.teal,
-                color: TOKENS.teal,
-              }}
-            >
-              View Details
-            </button>
-
-            <button
-              onClick={() =>
-                onAction("Reschedule feature coming soon.")
-              }
-              className="px-4 py-2 rounded-lg"
-            >
-              <Pencil size={15} className="inline mr-2" />
-              Reschedule
-            </button>
-
-          </div>
-
-        </div>
-
-        <Stub appt={appt} />
-
-      </div>
-    </div>
-  );
-}
-export default function MyAppointments() {
+export default function AppointmentsPage() {
   const { currentUser } = useAuth();
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [cancellingId, setCancellingId] = useState(null);
 
-  const [showBanner, setShowBanner] = useState(true);
-  const [toast, setToast] = useState(null);
+  // ---------------- Firestore real-time listener, filtered to current user ----------------
 
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      setAppointments([]);
+      setLoading(false);
+      return;
+    }
 
+    const appointmentsRef = collection(db, "appointments");
     const q = query(
-      collection(db, "appointments"),
-      where("patientId", "==", currentUser.uid),
+      appointmentsRef,
+      where("userId", "==", currentUser.uid),
       orderBy("createdAt", "desc")
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
+        }));
+        setAppointments(data);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching appointments:", error);
+        setLoading(false);
+      }
+    );
 
-      setAppointments(data);
-      setLoading(false);
-    });
-
-    return unsubscribe;
+    return () => unsubscribe();
   }, [currentUser]);
 
-  useEffect(() => {
-    if (!toast) return;
+  // ---------------- Search filtering ----------------
 
-    const timer = setTimeout(() => {
-      setToast(null);
-    }, 2500);
+  const filteredAppointments = appointments.filter((appt) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      appt.doctorName?.toLowerCase().includes(term) ||
+      appt.department?.toLowerCase().includes(term) ||
+      appt.status?.toLowerCase().includes(term)
+    );
+  });
 
-    return () => clearTimeout(timer);
-  }, [toast]);
+  // ---------------- Cancel / delete a pending appointment ----------------
 
-  const fireToast = (message) => {
-    setToast(message);
+  const handleCancel = async (appointmentId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this appointment? This cannot be undone."
+    );
+    if (!confirmed) return;
+
+    setCancellingId(appointmentId);
+    try {
+      await deleteDoc(doc(db, "appointments", appointmentId));
+    } catch (error) {
+      console.error("Error cancelling appointment:", error);
+      alert("Something went wrong cancelling this appointment. Please try again.");
+    } finally {
+      setCancellingId(null);
+    }
   };
 
-  if (loading) {
+  // ---------------- Status badge ----------------
+
+  const StatusBadge = ({ status }) => {
+    const config = {
+      pending: {
+        label: "Pending Review",
+        icon: Hourglass,
+        classes: "bg-[#fff3cd] text-[#8a6d1a] border border-[#f0dca0]",
+      },
+      approved: {
+        label: "Approved",
+        icon: CheckCircle2,
+        classes: "bg-[#d4f5df] text-[#146c3a] border border-[#a6e6bd]",
+      },
+      rejected: {
+        label: "Rejected",
+        icon: AlertCircle,
+        classes: "bg-[#ffdad6] text-[#ba1a1a] border border-[#f3b8b2]",
+      },
+      cancelled: {
+        label: "Cancelled",
+        icon: XCircle,
+        classes: "bg-[#e9e7eb] text-[#43474e] border border-[#c4c6cf]",
+      },
+    };
+
+    const { label, icon: Icon, classes } = config[status] || config.pending;
+
     return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{
-          background: TOKENS.paper,
-        }}
+      <span
+        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${classes}`}
       >
-        <h2
-          style={{
-            fontFamily: "'Lora', serif",
-            fontSize: 22,
-            color: TOKENS.tealDeep,
-          }}
-        >
-          Loading appointments...
-        </h2>
-      </div>
+        <Icon size={14} />
+        {label}
+      </span>
     );
-  }
+  };
+
+  // ---------------- Approved / rejected inline message ----------------
+
+  const StatusMessage = ({ status }) => {
+    if (status === "approved") {
+      return (
+        <div className="flex items-start gap-2 bg-[#d4f5df] border border-[#a6e6bd] text-[#146c3a] text-sm rounded-lg px-4 py-3 mt-4">
+          <CheckCircle2 size={18} className="mt-0.5 shrink-0" />
+          <span>
+            Your appointment has been confirmed. Please arrive 15 minutes
+            early with a valid ID.
+          </span>
+        </div>
+      );
+    }
+
+    if (status === "rejected") {
+      return (
+        <div className="flex items-start gap-2 bg-[#ffdad6] border border-[#f3b8b2] text-[#ba1a1a] text-sm rounded-lg px-4 py-3 mt-4">
+          <AlertCircle size={18} className="mt-0.5 shrink-0" />
+          <span>
+            This appointment request could not be accommodated. Please book a
+            new slot or contact us for assistance.
+          </span>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // ================= RENDER =================
 
   return (
-    <div
-      className="min-h-screen pb-24 md:pb-12"
-      style={{
-        background: TOKENS.paper,
-        color: TOKENS.ink,
-      }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
-      `}</style>
+    <>
+      <div className="bg-[#faf9fd] text-[#1a1c1e] w-full min-h-screen">
+        <Navbar />
 
-      <main className="max-w-5xl mx-auto px-5 md:px-8 py-10 space-y-8">
+        <div className="w-full px-6 md:px-10 pt-32 pb-20 max-w-5xl mx-auto">
 
-        {showBanner && (
-          <div
-            className="rounded-xl flex items-center gap-4 p-4"
-            style={{
-              background: TOKENS.rustTint,
-              border: `1px dashed ${TOKENS.rust}`,
-            }}
-          >
-            <div className="flex-1">
-              <h2
-                style={{
-                  fontFamily: "'Lora', serif",
-                  fontSize: 18,
-                  fontWeight: 700,
-                }}
-              >
+          {/* HEADER */}
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-black text-[#1a365d]">
                 My Appointments
-              </h2>
-
-              <p
-                style={{
-                  color: TOKENS.inkSoft,
-                  fontSize: 13,
-                }}
-              >
-                Here are all your booked appointments.
+              </h1>
+              <p className="text-[#43474e] mt-2">
+                Track, manage, and review your upcoming and past visits.
               </p>
             </div>
 
-            <button
-              onClick={() => setShowBanner(false)}
-            >
-              <X size={18} />
-            </button>
-          </div>
-        )}
-
-        <div className="flex items-center justify-between">
-
-          <h2
-            style={{
-              fontFamily: "'Lora', serif",
-              fontSize: 30,
-              fontWeight: 700,
-            }}
-          >
-            Upcoming Appointments
-          </h2>
-
-          <Link
-            to="/book-appointment"
-            className="flex items-center gap-2 rounded-lg px-4 py-2 text-white"
-            style={{
-              background: TOKENS.teal,
-            }}
-          >
-            <Plus size={16} />
-            Book Another
-          </Link>
-
-        </div>
-
-        {appointments.length === 0 ? (
-          <div
-            className="rounded-xl p-10 text-center"
-            style={{
-              background: TOKENS.card,
-              border: `1px solid ${TOKENS.line}`,
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: "'Lora', serif",
-                fontSize: 22,
-              }}
-            >
-              No appointments yet
-            </h3>
-
-            <p
-              className="mt-2"
-              style={{
-                color: TOKENS.inkSoft,
-              }}
-            >
-              You haven't booked any appointments.
-            </p>
-
             <Link
               to="/book-appointment"
-              className="inline-flex items-center gap-2 mt-6 px-5 py-3 rounded-lg text-white"
-              style={{
-                background: TOKENS.teal,
-              }}
+              className="inline-flex items-center justify-center gap-2 bg-[#1a365d] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1a365d]/90 transition-colors w-fit"
             >
-              <Plus size={18} />
-              Book Appointment
+              <CalendarDays size={18} />
+              Book New Appointment
             </Link>
-
           </div>
-        ) : (
-          <div className="space-y-5">
 
-            {appointments.map((appt) => (
-              <AppointmentCard
-                key={appt.id}
-                appt={appt}
-                onAction={fireToast}
-              />
-            ))}
+          {/* SEARCH */}
 
+          <div className="relative mb-8">
+            <Search
+              size={18}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#43474e]"
+            />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by doctor, department, or status..."
+              className="w-full bg-white border border-[#c4c6cf] rounded-lg pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a365d]/30 focus:border-[#1a365d] transition-all"
+            />
           </div>
-        )}
-      </main>
 
-      <nav
-        className="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 z-40"
-        style={{
-          background: TOKENS.card,
-          borderTop: `1px solid ${TOKENS.line}`,
-        }}
-      >
-        {[
-          { icon: LayoutGrid, label: "Home" },
-          { icon: HeartPulse, label: "Appointments" },
-          { icon: MessageCircle, label: "Messages" },
-          { icon: User, label: "Profile" },
-        ].map(({ icon: Icon, label }) => (
-          <div
-            key={label}
-            className="flex flex-col items-center gap-1"
-            style={{
-              color:
-                label === "Appointments"
-                  ? TOKENS.teal
-                  : TOKENS.inkSoft,
-            }}
-          >
-            <Icon size={20} />
-            <span
-              style={{
-                fontSize: 10,
-                fontWeight: 600,
-              }}
-            >
-              {label}
-            </span>
-          </div>
-        ))}
-      </nav>
+          {/* LOADING STATE */}
 
-      {toast && (
-        <div
-          className="fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 z-50 rounded-full px-5 py-3 flex items-center gap-2 shadow-lg"
-          style={{
-            background: TOKENS.ink,
-            color: "#fff",
-          }}
-        >
-          <Bell size={16} />
-          <span>{toast}</span>
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-24 text-[#43474e]">
+              <Hourglass className="animate-pulse mb-3" size={32} />
+              <p>Loading your appointments...</p>
+            </div>
+          )}
+
+          {/* EMPTY STATE */}
+
+          {!loading && filteredAppointments.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 text-center bg-[#f4f3f7] rounded-2xl border border-[#c4c6cf]">
+              <CalendarX size={48} className="text-[#43474e] mb-4" />
+              <h3 className="text-lg font-bold text-[#1a1c1e] mb-1">
+                {appointments.length === 0
+                  ? "No appointments yet"
+                  : "No matching appointments"}
+              </h3>
+              <p className="text-sm text-[#43474e] max-w-sm mb-6">
+                {appointments.length === 0
+                  ? "You haven't booked any appointments. Find a doctor and schedule your first visit."
+                  : "Try adjusting your search terms."}
+              </p>
+              {appointments.length === 0 && (
+                <Link
+                  to="/doctors"
+                  className="bg-[#1a365d] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1a365d]/90 transition-colors"
+                >
+                  Find a Doctor
+                </Link>
+              )}
+            </div>
+          )}
+
+          {/* APPOINTMENT LIST */}
+
+          {!loading && filteredAppointments.length > 0 && (
+            <div className="flex flex-col gap-5">
+              {filteredAppointments.map((appt) => (
+                <div
+                  key={appt.id}
+                  className="bg-white rounded-xl border border-[#c4c6cf] p-6"
+                >
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3 flex-wrap">
+                        <h3 className="text-lg font-bold text-[#1a1c1e]">
+                          {appt.doctorName || "Unassigned Doctor"}
+                        </h3>
+                        <StatusBadge status={appt.status} />
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
+                        <Stethoscope size={16} className="text-[#1a365d]" />
+                        <span>{appt.department || "General Consultation"}</span>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
+                        <CalendarDays size={16} className="text-[#1a365d]" />
+                        <span>{appt.date || "Date not set"}</span>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-[#43474e]">
+                        <Clock size={16} className="text-[#1a365d]" />
+                        <span>{appt.time || "Time not set"}</span>
+                      </div>
+
+                      <StatusMessage status={appt.status} />
+                    </div>
+
+                    {/* ACTIONS */}
+
+                    <div className="flex flex-row md:flex-col gap-3 shrink-0">
+                      {appt.status === "pending" && (
+                        <button
+                          onClick={() => handleCancel(appt.id)}
+                          disabled={cancellingId === appt.id}
+                          className="inline-flex items-center justify-center gap-2 bg-white border border-[#ba1a1a] text-[#ba1a1a] px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#ffdad6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Trash2 size={16} />
+                          {cancellingId === appt.id ? "Cancelling..." : "Cancel"}
+                        </button>
+                      )}
+
+                      {(appt.status === "rejected" || appt.status === "cancelled") && (
+                        <Link
+                          to="/doctors"
+                          className="inline-flex items-center justify-center gap-2 bg-[#1a365d] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#1a365d]/90 transition-colors"
+                        >
+                          <RotateCcw size={16} />
+                          Book Again
+                        </Link>
+                      )}
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
-      )}
+      </div>
 
-    </div>
+      <Footer />
+    </>
   );
 }
