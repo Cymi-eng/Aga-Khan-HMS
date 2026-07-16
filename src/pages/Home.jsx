@@ -179,13 +179,16 @@ export default function Home() {
                 Call 24/7 Emergency
               </a>
 
-              <Link
-                to="/facilities"
-                className="flex items-center justify-center gap-2 bg-white border border-[#c4c6cf] text-[#1a1c1e] px-8 py-3 rounded-lg font-semibold hover:bg-[#e9e7eb] transition-colors"
-              >
-                <MapPin size={18} />
-                View Hospital Map
-              </Link>
+              <a
+                  href="https://maps.app.goo.gl/w77yDnECcnwtJ1zb6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 bg-white border border-[#c4c6cf] text-[#1a1c1e] px-8 py-3 rounded-lg font-semibold hover:bg-[#e9e7eb] transition-colors"
+                >
+                  <MapPin size={18} />
+                  View Hospital Map
+              </a>
+              
             </div>
           </div>
         </section>
