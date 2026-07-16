@@ -13,7 +13,7 @@ import Patients from "@/pages/admin/Patients";
 import Doctors from "@/pages/admin/Doctors";
 import Departments from "@/pages/admin/Departments";
 import AppointmentSuccess from "@/pages/AppointmentSuccess";
-
+import DataImporter from "@/pages/admin/DataImporter";
 
 
 
@@ -45,7 +45,10 @@ export default function AppRoutes() {
   <Route path="departments" element={<Departments />} />
 </Route>
 <Route path="/appointment-success" element={<AppointmentSuccess />}/>
-
+<Route
+  path="/admin/import"
+  element={<DataImporter />}
+/>
   <Route
  path="/book-appointment"
   element={
