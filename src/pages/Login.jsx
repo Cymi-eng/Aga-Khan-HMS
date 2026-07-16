@@ -12,10 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/config/firebase";
+import { auth } from "@/config/firebase";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
 import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
@@ -62,54 +63,73 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    setError("");
+  setError("");
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      await login(formData.email, formData.password);
+    // Login with Firebase
+    const userCredential = await login(
+      formData.email,
+      formData.password
+    );
 
-      toast.success("Login successful!");
+    const user = userCredential.user;
 
+    // Check if the logged-in user is an admin
+    const adminDoc = await getDoc(doc(db, "admins", user.uid));
+    console.log("Logged in UID:", user.uid);
+    console.log("Admin exists:", adminDoc.exists());
+
+    toast.success("Login successful!");
+
+    if (adminDoc.exists()) {
+      navigate("/admin/dashboard", { replace: true });
+    } else {
       navigate(from, { replace: true });
-    } catch (err) {
-      let message = "Failed to login.";
-
-      switch (err.code) {
-        case "auth/user-not-found":
-          message = "No account exists with this email.";
-          break;
-
-        case "auth/wrong-password":
-          message = "Incorrect password.";
-          break;
-
-        case "auth/invalid-credential":
-          message = "Invalid email or password.";
-          break;
-
-        case "auth/invalid-email":
-          message = "Invalid email address.";
-          break;
-
-        default:
-          break;
-      }
-
-      setError(message);
-      toast.error(message);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (err) {
+    let message = "Failed to login.";
+
+    switch (err.code) {
+      case "auth/user-not-found":
+        message = "No account exists with this email.";
+        break;
+
+      case "auth/wrong-password":
+        message = "Incorrect password.";
+        break;
+
+      case "auth/invalid-credential":
+        message = "Invalid email or password.";
+        break;
+
+      case "auth/invalid-email":
+        message = "Invalid email address.";
+        break;
+
+      default:
+        break;
+    }
+
+    setError(message);
+    toast.error(message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-100 via-white to-blue-100 p-5">
       <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="text-center space-y-3">
-          <img src="khan.logo.jpg" alt="Aga Khan" className="h-16 w-16 mx-auto" />
+          <img
+            src="khan.logo.jpg"
+            alt="Aga Khan"
+            className="h-16 w-16 mx-auto"
+          />
 
           <CardTitle className="text-3xl font-bold text-blue-700">
             Welcome Back
