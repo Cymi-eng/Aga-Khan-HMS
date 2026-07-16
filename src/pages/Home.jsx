@@ -188,7 +188,7 @@ export default function Home() {
                   <MapPin size={18} />
                   View Hospital Map
               </a>
-              
+
             </div>
           </div>
         </section>
@@ -334,7 +334,11 @@ export default function Home() {
             </p>
 
             <div className="flex justify-center flex-wrap gap-6 mt-10">
-              <button className="bg-white text-[#1a365d] px-8 py-4 rounded-lg font-semibold hover:bg-white/90 transition">
+              
+              <button
+              onClick={() => navigate("/book-appointment")} 
+              className="bg-white text-[#1a365d] px-8 py-4 rounded-lg font-semibold hover:bg-white/90 transition">
+              
                 Book Appointment
               </button>
             </div>
