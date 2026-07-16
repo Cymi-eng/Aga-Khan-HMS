@@ -7,71 +7,22 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+
 import { db } from "@/config/firebase";
-import {
-  Search,
-  Plus,
-  X,
-  MapPin,
-  UserRound,
-  Pencil,
-  Trash2,
-  Building2,
-  Stethoscope,
-} from "lucide-react";
-
-const C = {
-  bg: "#F3F5F9",
-  card: "#FFFFFF",
-  border: "#E7EAF0",
-  ink: "#171E2E",
-  inkSoft: "#6B7280",
-  blue: "#2E6FED",
-  blueTint: "#E4ECFE",
-  green: "#16A34A",
-  greenTint: "#E1F6E9",
-  red: "#E5484D",
-  redTint: "#FBE4E4",
-  orange: "#F5A524",
-  orangeTint: "#FDF1DC",
-};
-
-const BADGE_PALETTE = [C.blue, C.green, C.orange, C.red, "#7C5CFC", "#0EA5A0"];
-
-function hashColor(text = "") {
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) hash = text.charCodeAt(i) + ((hash << 5) - hash);
-  return BADGE_PALETTE[Math.abs(hash) % BADGE_PALETTE.length];
-}
-
-function initials(name = "") {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
-
-const emptyForm = {
-  name: "",
-  head: "",
-  location: "",
-  doctors: "",
-};
 
 export default function AdminDepartments() {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [search, setSearch] = useState("");
-
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [saving, setSaving] = useState(false);
 
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState({
+    name: "",
+    head: "",
+    location: "",
+    doctors: "",
+  });
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -94,61 +45,44 @@ export default function AdminDepartments() {
   const filteredDepartments = useMemo(() => {
     return departments.filter((department) => {
       return (
-        department.name
-          ?.toLowerCase()
-          .includes(search.toLowerCase()) ||
-
-        department.head
-          ?.toLowerCase()
-          .includes(search.toLowerCase()) ||
-
-        department.location
-          ?.toLowerCase()
-          .includes(search.toLowerCase())
+        department.name?.toLowerCase().includes(search.toLowerCase()) ||
+        department.head?.toLowerCase().includes(search.toLowerCase()) ||
+        department.location?.toLowerCase().includes(search.toLowerCase())
       );
     });
   }, [departments, search]);
 
   const resetForm = () => {
-    setForm(emptyForm);
+    setForm({
+      name: "",
+      head: "",
+      location: "",
+      doctors: "",
+    });
+
     setEditingId(null);
     setShowForm(false);
   };
 
-  const openAddPanel = () => {
-    resetForm();
-    setShowForm(true);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSaving(true);
 
     try {
       if (editingId) {
-        await updateDoc(
-          doc(db, "departments", editingId),
-          {
-            ...form,
-            doctors: Number(form.doctors),
-          }
-        );
+        await updateDoc(doc(db, "departments", editingId), {
+          ...form,
+          doctors: Number(form.doctors),
+        });
       } else {
-        await addDoc(
-          collection(db, "departments"),
-          {
-            ...form,
-            doctors: Number(form.doctors),
-          }
-        );
+        await addDoc(collection(db, "departments"), {
+          ...form,
+          doctors: Number(form.doctors),
+        });
       }
 
       resetForm();
-
     } catch (err) {
       console.log(err);
-    } finally {
-      setSaving(false);
     }
   };
 
@@ -173,180 +107,140 @@ export default function AdminDepartments() {
     if (!confirmDelete) return;
 
     try {
-      await deleteDoc(
-        doc(db, "departments", id)
-      );
+      await deleteDoc(doc(db, "departments", id));
     } catch (err) {
       console.log(err);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="p-6 text-lg">
+        Loading departments...
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen" style={{ background: C.bg, color: C.ink }}>
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-          <div>
-            <h1 style={{ fontSize: 26, fontWeight: 700 }}>Departments</h1>
-            <p style={{ fontSize: 14, color: C.inkSoft, marginTop: 2 }}>
-              Manage hospital departments.
-            </p>
-          </div>
-          <button
-            onClick={openAddPanel}
-            className="flex items-center gap-2 rounded-lg px-4 py-2.5 self-start md:self-auto"
-            style={{ background: C.blue, color: "#fff", fontSize: 13.5, fontWeight: 600 }}
-          >
-            <Plus size={16} />
-            Add Department
-          </button>
+    <div className="w-full p-4 sm:p-6 lg:p-8">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold">
+            Departments
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Manage hospital departments
+          </p>
         </div>
 
-        {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-5">
-          <div
-            className="flex items-center gap-2 rounded-lg px-3 py-2.5 flex-1"
-            style={{ background: C.card, border: `1px solid ${C.border}` }}
-          >
-            <Search size={16} style={{ color: C.inkSoft }} />
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, head or location..."
-              className="flex-1 bg-transparent outline-none"
-              style={{ fontSize: 13.5 }}
-            />
-          </div>
-        </div>
-
-        {/* Directory */}
-        <div
-          className="rounded-xl overflow-hidden"
-          style={{ background: C.card, border: `1px solid ${C.border}` }}
+        <button
+          onClick={() => {
+            resetForm();
+            setShowForm(true);
+          }}
+          className="w-full md:w-auto bg-blue-700 text-white px-5 py-3 rounded-md hover:bg-blue-800"
         >
-          <div
-            className="flex items-center justify-between px-5 py-3"
-            style={{ borderBottom: `1px solid ${C.border}` }}
-          >
-            <div className="flex items-center gap-2" style={{ fontSize: 13, color: C.inkSoft, fontWeight: 600 }}>
-              <Building2 size={15} />
-              {loading
-                ? "Loading departments..."
-                : `${filteredDepartments.length} department${filteredDepartments.length === 1 ? "" : "s"}`}
-            </div>
-          </div>
-
-          {loading ? (
-            <div className="px-5 py-10 text-center" style={{ color: C.inkSoft, fontSize: 13.5 }}>
-              Loading departments...
-            </div>
-          ) : filteredDepartments.length === 0 ? (
-            <div className="px-5 py-14 text-center">
-              <Building2 size={28} style={{ color: C.inkSoft, margin: "0 auto 10px" }} />
-              <div style={{ fontSize: 14, fontWeight: 600 }}>No departments found</div>
-              <p style={{ fontSize: 13, color: C.inkSoft, marginTop: 4 }}>
-                Try a different search, or add a new department.
-              </p>
-            </div>
-          ) : (
-            filteredDepartments.map((department) => {
-              const badgeColor = hashColor(department.name);
-              return (
-                <div
-                  key={department.id}
-                  className="flex flex-col sm:flex-row sm:items-center gap-3 px-5 py-4"
-                  style={{ borderBottom: `1px solid ${C.border}` }}
-                >
-                  <div
-                    className="flex items-center justify-center rounded-full flex-shrink-0"
-                    style={{ width: 42, height: 42, background: `${badgeColor}1A`, color: badgeColor, fontWeight: 700, fontSize: 13 }}
-                  >
-                    {initials(department.name)}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span style={{ fontSize: 14.5, fontWeight: 600 }}>{department.name}</span>
-                      <span
-                        className="rounded-full px-2 py-0.5 flex items-center gap-1"
-                        style={{ fontSize: 11, fontWeight: 600, color: C.blue, background: C.blueTint }}
-                      >
-                        <Stethoscope size={11} />
-                        {department.doctors} doctor{Number(department.doctors) === 1 ? "" : "s"}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 flex-wrap mt-1" style={{ fontSize: 12.5, color: C.inkSoft }}>
-                      {department.head && (
-                        <span className="flex items-center gap-1.5">
-                          <UserRound size={12.5} />
-                          {department.head}
-                        </span>
-                      )}
-                      {department.location && (
-                        <span className="flex items-center gap-1.5">
-                          <MapPin size={12.5} />
-                          {department.location}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => handleEdit(department)}
-                      aria-label="Edit department"
-                      className="flex items-center justify-center rounded-lg"
-                      style={{ width: 32, height: 32, border: `1px solid ${C.border}`, color: C.inkSoft }}
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(department.id)}
-                      aria-label="Remove department"
-                      className="flex items-center justify-center rounded-lg"
-                      style={{ width: 32, height: 32, border: `1px solid ${C.border}`, color: C.red }}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+          Add Department
+        </button>
       </div>
 
-      {/* Slide-over form panel */}
-      {showForm && (
-        <div className="fixed inset-0 z-50 flex justify-end">
-          <div
-            className="absolute inset-0"
-            style={{ background: "rgba(23,30,46,0.4)" }}
-            onClick={resetForm}
-          />
-          <div
-            className="relative w-full max-w-md h-full flex flex-col"
-            style={{ background: C.card }}
-          >
+      {/* Search */}
+      <div className="mb-8">
+        <input
+          type="text"
+          placeholder="Search department..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:w-96 border rounded-md px-4 py-3 outline-none focus:border-blue-600"
+        />
+      </div>
+
+      {/* Departments */}
+      <div className="space-y-4">
+        {filteredDepartments.length === 0 ? (
+          <div className="border rounded-lg p-8 text-center text-gray-500">
+            No departments found.
+          </div>
+        ) : (
+          filteredDepartments.map((department) => (
             <div
-              className="flex items-center justify-between px-6 py-5"
-              style={{ borderBottom: `1px solid ${C.border}` }}
+              key={department.id}
+              className="border rounded-lg p-5 hover:bg-gray-50 transition"
             >
-              <h2 style={{ fontSize: 17, fontWeight: 700 }}>
-                {editingId ? "Edit Department" : "Add Department"}
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+                <div className="space-y-2">
+                  <h2 className="text-xl font-semibold break-words">
+                    {department.name}
+                  </h2>
+
+                  <p className="text-gray-600">
+                    <span className="font-medium">
+                      Head:
+                    </span>{" "}
+                    {department.head}
+                  </p>
+
+                  <p className="text-gray-600">
+                    <span className="font-medium">
+                      Location:
+                    </span>{" "}
+                    {department.location}
+                  </p>
+
+                  <p className="text-gray-600">
+                    <span className="font-medium">
+                      Doctors:
+                    </span>{" "}
+                    {department.doctors}
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                  <button
+                    onClick={() => handleEdit(department)}
+                    className="w-full sm:w-auto px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(department.id)}
+                    className="w-full sm:w-auto px-5 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Modal */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
+          <div className="bg-white w-full max-w-xl rounded-lg shadow-lg max-h-[90vh] overflow-y-auto">
+            <div className="border-b px-6 py-4">
+              <h2 className="text-xl sm:text-2xl font-semibold">
+                {editingId
+                  ? "Edit Department"
+                  : "Add Department"}
               </h2>
-              <button onClick={resetForm} style={{ color: C.inkSoft }}>
-                <X size={20} />
-              </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-5 space-y-4">
+            <form
+              onSubmit={handleSubmit}
+              className="p-6 space-y-5"
+            >
               <div>
-                <label style={{ fontSize: 12.5, fontWeight: 600, color: C.inkSoft }}>Department name</label>
+                <label className="block mb-2 font-medium">
+                  Department Name
+                </label>
+
                 <input
                   type="text"
-                  className="w-full mt-1 rounded-lg px-3 py-2.5"
-                  style={{ border: `1px solid ${C.border}`, fontSize: 13.5 }}
                   value={form.name}
                   onChange={(e) =>
                     setForm({
@@ -354,16 +248,18 @@ export default function AdminDepartments() {
                       name: e.target.value,
                     })
                   }
+                  className="w-full border rounded-md px-4 py-3"
                   required
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: 12.5, fontWeight: 600, color: C.inkSoft }}>Head of department</label>
+                <label className="block mb-2 font-medium">
+                  Head of Department
+                </label>
+
                 <input
                   type="text"
-                  className="w-full mt-1 rounded-lg px-3 py-2.5"
-                  style={{ border: `1px solid ${C.border}`, fontSize: 13.5 }}
                   value={form.head}
                   onChange={(e) =>
                     setForm({
@@ -371,16 +267,18 @@ export default function AdminDepartments() {
                       head: e.target.value,
                     })
                   }
+                  className="w-full border rounded-md px-4 py-3"
                   required
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: 12.5, fontWeight: 600, color: C.inkSoft }}>Location</label>
+                <label className="block mb-2 font-medium">
+                  Location
+                </label>
+
                 <input
                   type="text"
-                  className="w-full mt-1 rounded-lg px-3 py-2.5"
-                  style={{ border: `1px solid ${C.border}`, fontSize: 13.5 }}
                   value={form.location}
                   onChange={(e) =>
                     setForm({
@@ -388,16 +286,18 @@ export default function AdminDepartments() {
                       location: e.target.value,
                     })
                   }
+                  className="w-full border rounded-md px-4 py-3"
                   required
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: 12.5, fontWeight: 600, color: C.inkSoft }}>Number of doctors</label>
+                <label className="block mb-2 font-medium">
+                  Number of Doctors
+                </label>
+
                 <input
                   type="number"
-                  className="w-full mt-1 rounded-lg px-3 py-2.5"
-                  style={{ border: `1px solid ${C.border}`, fontSize: 13.5 }}
                   value={form.doctors}
                   onChange={(e) =>
                     setForm({
@@ -405,29 +305,30 @@ export default function AdminDepartments() {
                       doctors: e.target.value,
                     })
                   }
+                  className="w-full border rounded-md px-4 py-3"
                   required
                 />
               </div>
-            </form>
 
-            <div className="px-6 py-4 flex gap-3" style={{ borderTop: `1px solid ${C.border}` }}>
-              <button
-                onClick={resetForm}
-                type="button"
-                className="flex-1 rounded-lg py-2.5"
-                style={{ border: `1px solid ${C.border}`, fontSize: 13.5, fontWeight: 600, color: C.inkSoft }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={saving}
-                className="flex-1 rounded-lg py-2.5"
-                style={{ background: C.blue, color: "#fff", fontSize: 13.5, fontWeight: 600, opacity: saving ? 0.7 : 1 }}
-              >
-                {saving ? "Saving..." : editingId ? "Update Department" : "Add Department"}
-              </button>
-            </div>
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="w-full sm:w-auto border px-5 py-3 rounded-md hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto bg-blue-700 text-white px-6 py-3 rounded-md hover:bg-blue-800"
+                >
+                  {editingId
+                    ? "Update Department"
+                    : "Save Department"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
