@@ -63,7 +63,7 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static top-0 left-0 z-50
+          fixed lg:sticky top-0 left-0 z-50
           h-screen w-72 bg-[#1a365d] text-white flex flex-col
           transform transition-transform duration-300
           ${
