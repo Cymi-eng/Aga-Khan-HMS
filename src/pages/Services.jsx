@@ -1,200 +1,210 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 import {
   HeartPulse,
-  Stethoscope,
-  Baby,
   Brain,
+  Baby,
   Bone,
-  Eye,
-  FlaskConical,
+  Microscope,
   Ambulance,
-  Syringe,
-  Users,
+  Stethoscope,
+  Activity,
   ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
 
-const TOKENS = {
-  paper: "#F7F3EA",
-  card: "#FFFFFF",
-  ink: "#211F1A",
-  inkSoft: "#6B6459",
-  teal: "#2E6659",
-  tealDeep: "#1E463D",
-  tealTint: "#E4EEE9",
-  rust: "#9B4A2E",
-  rustTint: "#F3E2D8",
-  line: "#DDD5C3",
-};
+export default function Services() {
+  const services = [
+    {
+      title: "Cardiology",
+      icon: HeartPulse,
+      description:
+        "Comprehensive diagnosis and treatment of heart and cardiovascular diseases using modern technology.",
+    },
+    {
+      title: "Neurology",
+      icon: Brain,
+      description:
+        "Expert care for disorders affecting the brain, spine, and nervous system.",
+    },
+    {
+      title: "Pediatrics",
+      icon: Baby,
+      description:
+        "Compassionate healthcare services for infants, children, and adolescents.",
+    },
+    {
+      title: "Orthopedics",
+      icon: Bone,
+      description:
+        "Advanced treatment for bone, muscle, and joint conditions including rehabilitation.",
+    },
+    {
+      title: "Laboratory",
+      icon: Microscope,
+      description:
+        "Accurate diagnostic testing with modern laboratory equipment and qualified specialists.",
+    },
+    {
+      title: "Emergency Care",
+      icon: Ambulance,
+      description:
+        "24/7 emergency medical services for urgent and life-threatening conditions.",
+    },
+  ];
 
-const services = [
-  {
-    title: "Cardiology",
-    body: "Diagnosis and ongoing management of heart conditions, from routine screening to specialist consultations.",
-    icon: HeartPulse,
-    tag: "Specialist",
-  },
-  {
-    title: "General Practice",
-    body: "Everyday health concerns, checkups and referrals, with a doctor who gets to know your history over time.",
-    icon: Stethoscope,
-    tag: "Primary care",
-  },
-  {
-    title: "Paediatrics",
-    body: "Care for infants, children and adolescents, including growth monitoring and vaccination schedules.",
-    icon: Baby,
-    tag: "Specialist",
-  },
-  {
-    title: "Neurology",
-    body: "Assessment and treatment of conditions affecting the brain, spine and nervous system.",
-    icon: Brain,
-    tag: "Specialist",
-  },
-  {
-    title: "Orthopaedics",
-    body: "Care for bones, joints and muscles, from sports injuries to long-term mobility concerns.",
-    icon: Bone,
-    tag: "Specialist",
-  },
-  {
-    title: "Ophthalmology",
-    body: "Eye examinations, vision correction and treatment for conditions affecting eye health.",
-    icon: Eye,
-    tag: "Specialist",
-  },
-  {
-    title: "Laboratory & Diagnostics",
-    body: "Blood work, imaging and test results, with reports delivered straight to your patient portal.",
-    icon: FlaskConical,
-    tag: "Diagnostics",
-  },
-  {
-    title: "Emergency Care",
-    body: "Round-the-clock urgent care for accidents and acute conditions that can't wait for an appointment.",
-    icon: Ambulance,
-    tag: "24/7",
-  },
-  {
-    title: "Vaccinations",
-    body: "Routine and travel immunisations administered by our nursing team, logged to your health record.",
-    icon: Syringe,
-    tag: "Preventive",
-  },
-];
+  const whyChoose = [
+    "Experienced Specialist Doctors",
+    "Modern Medical Equipment",
+    "24/7 Emergency Services",
+    "Secure Digital Patient Records",
+    "Affordable & Quality Healthcare",
+    "Patient-Centered Care",
+  ];
 
-function ServiceCard({ title, body, icon: Icon, tag }) {
-  return (
-    <div
-      className="rounded-xl p-5 flex flex-col h-full"
-      style={{ background: TOKENS.card, border: `1px solid ${TOKENS.line}` }}
-    >
-      <div className="flex items-start justify-between">
-        <div
-          className="flex items-center justify-center rounded-full"
-          style={{ width: 46, height: 46, background: TOKENS.tealTint }}
-        >
-          <Icon size={20} style={{ color: TOKENS.tealDeep }} />
-        </div>
-        <span
-          className="uppercase"
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: "0.06em",
-            color: TOKENS.rust,
-            background: TOKENS.rustTint,
-            padding: "3px 8px",
-            borderRadius: 999,
-          }}
-        >
-          {tag}
-        </span>
-      </div>
-
-      <h3
-        className="mt-4"
-        style={{ fontFamily: "'Lora', serif", fontSize: 18, fontWeight: 600 }}
-      >
-        {title}
-      </h3>
-      <p
-        className="mt-2 flex-1"
-        style={{ fontSize: 13.5, color: TOKENS.inkSoft, lineHeight: 1.6 }}
-      >
-        {body}
-      </p>
-
-      <button
-        className="mt-4 flex items-center gap-1.5 self-start"
-        style={{ fontSize: 13, fontWeight: 600, color: TOKENS.teal }}
-      >
-        Book appointment
-        <ArrowRight size={14} />
-      </button>
-    </div>
-  );
-}
-
-export default function ServicesPage() {
   return (
     <>
     <Navbar/>
     
-    <div>
-    
-      <header className="max-w-5xl mx-auto px-5 md:px-8 pt-16 pb-10 text-center mt-6">
-        
-        <h1
-          style={{
-            fontFamily: "'Lora', serif",
-            fontSize: 34,
-            fontWeight: 700,
-            color: TOKENS.tealDeep,
-          }}
-        >
-          Our Services
-        </h1>
-        <p
-          className="mt-4 max-w-2xl mx-auto"
-          style={{ fontSize: 15, lineHeight: 1.7, color: TOKENS.inkSoft }}
-        >
-          From everyday checkups to specialist care and emergencies, our
-          departments work together so you get the right care, booked in one
-          place.
-        </p>
-      </header>
+    <div className="bg-[#faf9fd] text-[#1a1c1e]">
 
-      <section className="max-w-5xl mx-auto px-5 md:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((service) => (
-            <ServiceCard key={service.title} {...service} />
-          ))}
+      {/* Hero */}
+      <section className="bg-[#002045] text-white py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28">
+          <p className="uppercase tracking-widest text-blue-200 mb-4">
+            Our Services
+          </p>
+
+          <h1 className="text-5xl md:text-6xl font-bold max-w-3xl">
+            Healthcare Services Designed Around You
+          </h1>
+
+          <p className="mt-8 max-w-2xl text-lg text-gray-300 leading-8">
+            We provide comprehensive healthcare services supported by modern
+            technology, experienced specialists, and compassionate care to help
+            every patient achieve better health outcomes.
+          </p>
         </div>
       </section>
 
-      <section
-        className="max-w-5xl mx-auto px-5 md:px-8 mt-14 rounded-xl p-8 text-center mb-6"
-        style={{ background: TOKENS.tealDeep, color: "#fff" }}
-      >
-        <h2 style={{ fontFamily: "'Lora', serif", fontSize: 22, fontWeight: 700 }}>
-          Not sure which department you need?
-        </h2>
-        <p className="mt-3 max-w-xl mx-auto" style={{ fontSize: 14, opacity: 0.85, lineHeight: 1.7 }}>
-          Book a general practice consultation first, and we'll refer you to
-          the right specialist.
-        </p>
-        <button
-          className="mt-5 inline-flex items-center gap-2 rounded-lg px-5 py-2.5"
-          style={{ background: "#fff", color: TOKENS.tealDeep, fontSize: 13, fontWeight: 600 }}
-        >
-          Book Appointment
-          <ArrowRight size={15} />
-        </button>
+      {/* Services */}
+      <section className="py-24">
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28">
+
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold">
+              Medical Services
+            </h2>
+
+            <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+              Our multidisciplinary team provides specialized care across a
+              wide range of medical fields.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-3xl border border-gray-200 p-8 hover:shadow-xl transition"
+              >
+                <service.icon
+                  size={46}
+                  className="text-[#002045]"
+                />
+
+                <h3 className="text-2xl font-semibold mt-6">
+                  {service.title}
+                </h3>
+
+                <p className="text-gray-600 mt-4 leading-7">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+
+          </div>
+        </div>
       </section>
+
+      {/* Why Choose */}
+      <section className="bg-[#f4f3f7] py-24">
+
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28 grid lg:grid-cols-2 gap-20 items-center">
+
+          <div>
+            <Activity
+              size={60}
+              className="text-[#002045]"
+            />
+
+            <h2 className="text-4xl font-bold mt-6 mb-6">
+              Why Patients Choose Us
+            </h2>
+
+            <p className="text-gray-600 leading-8">
+              We combine medical excellence, advanced healthcare technology,
+              and compassionate professionals to ensure every patient receives
+              safe, effective, and personalized treatment.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+
+            {whyChoose.map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-4 bg-white rounded-2xl p-5 border"
+              >
+                <CheckCircle2
+                  className="text-green-600"
+                />
+
+                <span className="text-lg">
+                  {item}
+                </span>
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[#002045] py-24 text-white">
+
+        <div className="px-6 md:px-12 lg:px-20 xl:px-28 text-center">
+
+          <Stethoscope
+            size={55}
+            className="mx-auto mb-6"
+          />
+
+          <h2 className="text-4xl font-bold">
+            Need Medical Assistance?
+          </h2>
+
+          <p className="max-w-2xl mx-auto mt-6 text-gray-300 leading-8">
+            Book an appointment with one of our experienced specialists and
+            receive quality healthcare tailored to your needs.
+          </p>
+
+          <button className="mt-10 bg-white text-[#002045] px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto hover:bg-gray-100 transition">
+            Book Appointment
+            <ArrowRight size={18} />
+          </button>
+
+        </div>
+
+      </section>
+
     </div>
     <Footer/>
+
     </>
   );
 }
