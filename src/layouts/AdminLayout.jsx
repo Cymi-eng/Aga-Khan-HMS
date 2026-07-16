@@ -45,11 +45,6 @@ export default function AdminLayout() {
       path: "/admin/departments",
       icon: Building2,
     },
-    {
-      title: "Settings",
-      path: "/admin/settings",
-      icon: Settings,
-    },
   ];
 
   return (
