@@ -78,7 +78,7 @@ const Login = () => {
     const user = userCredential.user;
 
     // Check if the logged-in user is an admin
-    const adminDoc = await getDoc(doc(db, "admins", user.uid));
+    const adminDoc = await getDoc(doc(db, "admin", user.uid));
     console.log("Logged in UID:", user.uid);
     console.log("Admin exists:", adminDoc.exists());
 

@@ -52,14 +52,7 @@ export default function AppRoutes() {
       />
 
       {/* Admin Routes */}
-      <Route
-        path="/admin"
-        element={
-          <AdminRoutes>
-            <AdminLayout />
-          </AdminRoutes>
-        }
-      >
+      <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
         <Route path="appointments" element={<Appointments />} />
         <Route path="patients" element={<Patients />} />
