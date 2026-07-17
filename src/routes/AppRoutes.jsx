@@ -11,7 +11,7 @@ import BookAppointment from "@/pages/BookAppointments";
 import AppointmentSuccess from "@/pages/AppointmentSuccess";
 
 import ProtectedRoute from "@/routes/ProtectedRoutes";
-import AdminRoutes  from "@/routes/AdminRoutes";
+import AdminRoute  from "@/routes/AdminRoute";
 
 import AdminLayout from "@/layouts/AdminLayout";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
@@ -51,15 +51,23 @@ export default function AppRoutes() {
         element={<AppointmentSuccess />}
       />
 
-      {/* Admin Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="appointments" element={<Appointments />} />
-        <Route path="patients" element={<Patients />} />
-        <Route path="doctors" element={<Doctors />} />
-        <Route path="departments" element={<Departments />} />
-        <Route path="import" element={<DataImporter />} />
-      </Route>
+  
+     {/* Admin Routes */}
+<Route
+  path="/admin"
+  element={
+    <AdminRoute>
+      <AdminLayout />
+    </AdminRoute>
+  }
+>
+  <Route index element={<AdminDashboard />} />
+  <Route path="appointments" element={<Appointments />} />
+  <Route path="patients" element={<Patients />} />
+  <Route path="doctors" element={<Doctors />} />
+  <Route path="departments" element={<Departments />} />
+  <Route path="import" element={<DataImporter />} />
+</Route>
     </Routes>
   );
 }

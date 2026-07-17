@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import {
   createUserWithEmailAndPassword,
@@ -15,12 +10,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
 import { auth, db, googleProvider } from "../config/firebase";
 
@@ -32,17 +22,13 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   // Register User
 
   const register = async (email, password, fullName) => {
-    const result = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const result = await createUserWithEmailAndPassword(auth, email, password);
 
     await updateProfile(result.user, {
       displayName: fullName,
@@ -60,24 +46,16 @@ export function AuthProvider({ children }) {
     return result;
   };
 
-
   // Login
 
   const login = (email, password) => {
-    return signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Google Login
 
   const loginWithGoogle = async () => {
-    const result = await signInWithPopup(
-      auth,
-      googleProvider
-    );
+    const result = await signInWithPopup(auth, googleProvider);
 
     const userRef = doc(db, "users", result.user.uid);
 
@@ -98,9 +76,8 @@ export function AuthProvider({ children }) {
     return result;
   };
 
-
   // Logout
- 
+
   const logout = () => {
     return signOut(auth);
   };
@@ -111,23 +88,34 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   };
 
+  // Listen for Auth Changes + Get Role
 
-  // Listen for Auth Changes
- 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        setCurrentUser(user);
-        setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+
+        if (userDoc.exists()) {
+          setRole(userDoc.data().role);
+        } else {
+          setRole(null);
+        }
+      } else {
+        setRole(null);
       }
-    );
+
+      setLoading(false);
+    });
 
     return unsubscribe;
   }, []);
 
   const value = {
     currentUser,
+    role,
+
     register,
     login,
     loginWithGoogle,
