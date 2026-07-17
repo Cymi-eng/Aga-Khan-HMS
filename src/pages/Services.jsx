@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import departments from "@/data/departments";
+import departments from "@/data/Departments";
 
 import {
   Stethoscope,
