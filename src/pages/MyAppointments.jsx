@@ -21,6 +21,7 @@ import {
   RotateCcw,
   Trash2,
   CalendarX,
+  MessageSquare,
 } from "lucide-react";
 import { db } from "@/config/firebase";
 import { useAuth } from "@/context/AuthContext";
@@ -28,17 +29,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 /*
-  Assumed Firestore "appointments" document shape:
+  Firestore "appointments" document shape (as written by the admin panel):
   {
     userId: string,          // matches auth uid, used to filter to current user
     doctorName: string,
     department: string,
     date: string,            // e.g. "2026-07-20"
     time: string,            // e.g. "10:30 AM"
-    status: "pending" | "approved" | "rejected" | "cancelled",
-    reason: string,          // optional visit reason
+    status: "Pending" | "Approved" | "Rejected" | "Cancelled",  // admin writes Capitalized values
+    rejectionReason: string, // set by admin when status is "Rejected"
+    adminFeedback: string,   // optional note from admin, set on Approved/Rejected
     createdAt: Timestamp,
   }
+
+  NOTE: status is compared case-insensitively below (via .toLowerCase())
+  since the admin panel stores it Capitalized ("Approved") while this page
+  previously compared against lowercase strings and silently never matched.
 */
 
 export default function AppointmentsPage() {
@@ -115,6 +121,7 @@ export default function AppointmentsPage() {
   };
 
   // ---------------- Status badge ----------------
+  // status is compared lowercase since the admin panel stores it Capitalized
 
   const StatusBadge = ({ status }) => {
     const config = {
@@ -140,7 +147,8 @@ export default function AppointmentsPage() {
       },
     };
 
-    const { label, icon: Icon, classes } = config[status] || config.pending;
+    const key = status?.toLowerCase();
+    const { label, icon: Icon, classes } = config[key] || config.pending;
 
     return (
       <span
@@ -153,27 +161,54 @@ export default function AppointmentsPage() {
   };
 
   // ---------------- Approved / rejected inline message ----------------
+  // Now surfaces the admin's actual feedback / rejection reason instead of
+  // a hardcoded generic sentence, and matches status case-insensitively.
 
-  const StatusMessage = ({ status }) => {
-    if (status === "approved") {
+  const StatusMessage = ({ status, adminFeedback, rejectionReason }) => {
+    const key = status?.toLowerCase();
+
+    if (key === "approved") {
       return (
         <div className="flex items-start gap-2 bg-[#d4f5df] border border-[#a6e6bd] text-[#146c3a] text-sm rounded-lg px-4 py-3 mt-4">
           <CheckCircle2 size={18} className="mt-0.5 shrink-0" />
           <span>
             Your appointment has been confirmed. Please arrive 15 minutes
             early with a valid ID.
+            {adminFeedback && (
+              <>
+                <br />
+                <span className="inline-flex items-start gap-1.5 mt-2">
+                  <MessageSquare size={14} className="mt-0.5 shrink-0" />
+                  <span>
+                    <strong>Note from the clinic:</strong> {adminFeedback}
+                  </span>
+                </span>
+              </>
+            )}
           </span>
         </div>
       );
     }
 
-    if (status === "rejected") {
+    if (key === "rejected") {
       return (
         <div className="flex items-start gap-2 bg-[#ffdad6] border border-[#f3b8b2] text-[#ba1a1a] text-sm rounded-lg px-4 py-3 mt-4">
           <AlertCircle size={18} className="mt-0.5 shrink-0" />
           <span>
             This appointment request could not be accommodated. Please book a
             new slot or contact us for assistance.
+            {(rejectionReason || adminFeedback) && (
+              <>
+                <br />
+                <span className="inline-flex items-start gap-1.5 mt-2">
+                  <MessageSquare size={14} className="mt-0.5 shrink-0" />
+                  <span>
+                    <strong>Reason:</strong>{" "}
+                    {rejectionReason || adminFeedback}
+                  </span>
+                </span>
+              </>
+            )}
           </span>
         </div>
       );
@@ -267,67 +302,75 @@ export default function AppointmentsPage() {
 
           {!loading && filteredAppointments.length > 0 && (
             <div className="flex flex-col gap-5">
-              {filteredAppointments.map((appt) => (
-                <div
-                  key={appt.id}
-                  className="bg-white rounded-xl border border-[#c4c6cf] p-6"
-                >
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+              {filteredAppointments.map((appt) => {
+                const statusKey = appt.status?.toLowerCase();
 
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3 flex-wrap">
-                        <h3 className="text-lg font-bold text-[#1a1c1e]">
-                          {appt.doctorName || "Unassigned Doctor"}
-                        </h3>
-                        <StatusBadge status={appt.status} />
+                return (
+                  <div
+                    key={appt.id}
+                    className="bg-white rounded-xl border border-[#c4c6cf] p-6"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3 flex-wrap">
+                          <h3 className="text-lg font-bold text-[#1a1c1e]">
+                            {appt.doctorName || "Unassigned Doctor"}
+                          </h3>
+                          <StatusBadge status={appt.status} />
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
+                          <Stethoscope size={16} className="text-[#1a365d]" />
+                          <span>{appt.department || "General Consultation"}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
+                          <CalendarDays size={16} className="text-[#1a365d]" />
+                          <span>{appt.date || "Date not set"}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-[#43474e]">
+                          <Clock size={16} className="text-[#1a365d]" />
+                          <span>{appt.time || "Time not set"}</span>
+                        </div>
+
+                        <StatusMessage
+                          status={appt.status}
+                          adminFeedback={appt.adminFeedback}
+                          rejectionReason={appt.rejectionReason}
+                        />
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
-                        <Stethoscope size={16} className="text-[#1a365d]" />
-                        <span>{appt.department || "General Consultation"}</span>
+                      {/* ACTIONS */}
+
+                      <div className="flex flex-row md:flex-col gap-3 shrink-0">
+                        {statusKey === "pending" && (
+                          <button
+                            onClick={() => handleCancel(appt.id)}
+                            disabled={cancellingId === appt.id}
+                            className="inline-flex items-center justify-center gap-2 bg-white border border-[#ba1a1a] text-[#ba1a1a] px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#ffdad6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <Trash2 size={16} />
+                            {cancellingId === appt.id ? "Cancelling..." : "Cancel"}
+                          </button>
+                        )}
+
+                        {(statusKey === "rejected" || statusKey === "cancelled") && (
+                          <Link
+                            to="/doctors"
+                            className="inline-flex items-center justify-center gap-2 bg-[#1a365d] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#1a365d]/90 transition-colors"
+                          >
+                            <RotateCcw size={16} />
+                            Book Again
+                          </Link>
+                        )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-sm text-[#43474e] mb-1.5">
-                        <CalendarDays size={16} className="text-[#1a365d]" />
-                        <span>{appt.date || "Date not set"}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-[#43474e]">
-                        <Clock size={16} className="text-[#1a365d]" />
-                        <span>{appt.time || "Time not set"}</span>
-                      </div>
-
-                      <StatusMessage status={appt.status} />
                     </div>
-
-                    {/* ACTIONS */}
-
-                    <div className="flex flex-row md:flex-col gap-3 shrink-0">
-                      {appt.status === "pending" && (
-                        <button
-                          onClick={() => handleCancel(appt.id)}
-                          disabled={cancellingId === appt.id}
-                          className="inline-flex items-center justify-center gap-2 bg-white border border-[#ba1a1a] text-[#ba1a1a] px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#ffdad6] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <Trash2 size={16} />
-                          {cancellingId === appt.id ? "Cancelling..." : "Cancel"}
-                        </button>
-                      )}
-
-                      {(appt.status === "rejected" || appt.status === "cancelled") && (
-                        <Link
-                          to="/doctors"
-                          className="inline-flex items-center justify-center gap-2 bg-[#1a365d] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#1a365d]/90 transition-colors"
-                        >
-                          <RotateCcw size={16} />
-                          Book Again
-                        </Link>
-                      )}
-                    </div>
-
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
