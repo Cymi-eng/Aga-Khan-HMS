@@ -267,6 +267,8 @@ export default function BookAppointment() {
         time: formData.time,
         reason: formData.reason,
         status: "Pending",
+        adminFeedback: "",
+        rejectionReason: "",
         createdAt: serverTimestamp(),
       });
 
