@@ -1,72 +1,72 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import Home from "@/pages/Home";
+import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import BookAppointment from "@/pages/BookAppointments";
-import ProtectedRoute from "@/routes/ProtectedRoutes";
-import MyAppointments from "@/pages/MyAppointments";
+import ForgotPassword from "@/pages/ForgotPassword";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
+import MyAppointments from "@/pages/MyAppointments";
+import BookAppointment from "@/pages/BookAppointments";
+import AppointmentSuccess from "@/pages/AppointmentSuccess";
+
+import ProtectedRoute from "@/routes/ProtectedRoutes";
+import AdminRoutes  from "@/routes/AdminRoutes";
+
 import AdminLayout from "@/layouts/AdminLayout";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Appointments from "@/pages/admin/Appointments";
 import Patients from "@/pages/admin/Patients";
 import Doctors from "@/pages/admin/Doctors";
 import Departments from "@/pages/admin/Departments";
-import AppointmentSuccess from "@/pages/AppointmentSuccess";
 import DataImporter from "@/pages/admin/DataImporter";
 
 
-
-
-import Login from "@/pages/Login";
-import ForgotPassword from "@/pages/ForgotPassword";
-// import Dashboard from "@/pages/dashboard/Dashboard";
-
-// import ProtectedRoute from "@/routes/ProtectedRoute";
-
 export default function AppRoutes() {
   return (
-    
     <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/register" element={<Register />} />
-  <Route path="/forgot-password" element={<ForgotPassword />} />
-  <Route path="/my-appointments" element={<MyAppointments />} />
-  <Route path="/about" element={<About />} />
-  <Route path="/services" element={<Services />} />
-  
+      {/* Public Routes */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/services" element={<Services />} />
+      
 
-  <Route path="/admin" element={<AdminLayout />}>
-  <Route index element={<AdminDashboard />} />
-  <Route path="appointments" element={<Appointments />} />
-  <Route path="patients" element={<Patients />} />
-  <Route path="doctors" element={<Doctors />} />
-  <Route path="departments" element={<Departments />} />
-</Route>
-<Route path="/appointment-success" element={<AppointmentSuccess />}/>
-<Route
-  path="/admin/import"
-  element={<DataImporter />}
-/>
-  <Route
- path="/book-appointment"
-  element={
-    <ProtectedRoute>
-      <BookAppointment />
-    </ProtectedRoute>
-  }
-/>
+      {/* Patient Routes */}
+      <Route path="/my-appointments" element={<MyAppointments />} />
 
-  <Route
-    path="/book-appointment"
-    element={
-      <ProtectedRoute>
-        <BookAppointment />
-      </ProtectedRoute>
-    }
-    
-  />
-</Routes>
+      <Route
+        path="/book-appointment"
+        element={
+          <ProtectedRoute>
+            <BookAppointment />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/appointment-success"
+        element={<AppointmentSuccess />}
+      />
+
+      {/* Admin Routes */}
+      <Route
+        path="/admin"
+        element={
+          <AdminRoutes>
+            <AdminLayout />
+          </AdminRoutes>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="appointments" element={<Appointments />} />
+        <Route path="patients" element={<Patients />} />
+        <Route path="doctors" element={<Doctors />} />
+        <Route path="departments" element={<Departments />} />
+        <Route path="import" element={<DataImporter />} />
+      </Route>
+    </Routes>
   );
 }

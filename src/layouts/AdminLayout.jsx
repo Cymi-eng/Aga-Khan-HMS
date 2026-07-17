@@ -125,7 +125,7 @@ export default function AdminLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col w-full">
         {/* Top Bar */}
-        <header className="bg-white shadow-sm px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white shadow-sm px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between border-b-[3px] border-[#E5484D]">
           <div className="flex items-center gap-4">
             <button
               className="lg:hidden"
@@ -146,7 +146,7 @@ export default function AdminLayout() {
             </div>
           </div>
 
-          <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#1a365d] text-white flex items-center justify-center font-bold">
+          <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-[#1a365d] text-white flex items-center justify-center font-bold ring-2 ring-[#E5484D] ring-offset-2">
             {currentUser?.displayName?.charAt(0) || "A"}
           </div>
         </header>
