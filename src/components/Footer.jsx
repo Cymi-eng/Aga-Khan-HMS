@@ -70,10 +70,6 @@ export default function Footer() {
           <ul className="space-y-2.5 text-sm">
             <li><Link to="/" className="hover:text-white transition">Home</Link></li>
             <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
-            <li><Link to="/doctors" className="hover:text-white transition">Find a Doctor</Link></li>
-            <li><Link to="/facilities" className="hover:text-white transition">Our Facilities</Link></li>
-            <li><Link to="/contact" className="hover:text-white transition">Contact Us</Link></li>
-            <li><Link to="/login" className="hover:text-white transition">Patient Portal</Link></li>
           </ul>
         </div>
 
@@ -120,7 +116,7 @@ export default function Footer() {
 
       </div>
 
-      {/* ================= BOTTOM BAR ================= */}
+      {/* BOTTOM BAR  */}
 
       <div className="border-t border-white/10">
         <div className="w-full px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
