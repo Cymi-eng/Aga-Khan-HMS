@@ -95,12 +95,20 @@ export function AuthProvider({ children }) {
       setCurrentUser(user);
 
       if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
+        // Check the "admin" collection first
+        const adminSnap = await getDoc(doc(db, "admin", user.uid));
 
-        if (userDoc.exists()) {
-          setRole(userDoc.data().role);
+        if (adminSnap.exists()) {
+          setRole("admin");
         } else {
-          setRole(null);
+          // Fall back to "users" collection
+          const userSnap = await getDoc(doc(db, "users", user.uid));
+
+          if (userSnap.exists()) {
+            setRole(userSnap.data().role || "patient");
+          } else {
+            setRole(null);
+          }
         }
       } else {
         setRole(null);

@@ -31,7 +31,7 @@ export default function Navbar() {
       {/* LOGO */}
       <Link to="/" className="col-start-1 flex items-center gap-3">
         <img
-          src="khan.logo.jpg"
+          src="/khan.logo.jpg"
           alt="Aga Khan Hospital Logo"
           className="w-11 h-11 rounded-xl object-cover"
         />
