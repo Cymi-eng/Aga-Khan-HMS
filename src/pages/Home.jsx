@@ -200,12 +200,6 @@ export default function Home() {
             <h3 className="text-2xl font-bold text-[#1a365d]">
               Top Specialists
             </h3>
-            <Link
-              to="/doctors"
-              className="text-sm font-semibold text-[#1a365d] hover:underline flex items-center gap-1"
-            >
-              View All Specialists <ArrowRight size={16} />
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -226,7 +220,7 @@ export default function Home() {
                 name: "Dr. Emily Johnson",
                 dept: "Senior Neurologist",
                 years: "8 Years Experience",
-                image: "emily.jpg",
+                image: "johnson.jpg",
               },
               {
                 name: "Dr. David Brown",
