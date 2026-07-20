@@ -96,24 +96,62 @@ A modern, responsive Hospital Management System built with **React**, **Vite**, 
 
 ```text
 src/
+│
 ├── assets/
-├── billing/
-├── common/
+│
 ├── components/
-├── laboratory/
-├── pharmacy/
+│   ├── Admin/
+│   │   ├── DashboardCards.jsx
+│   │   ├── DashboardHooks.jsx
+│   │   ├── DepartmentBarChart.jsx
+│   │   ├── RecentAppointments.jsx
+│   │   ├── StatCard.jsx
+│   │   └── StatusPieChart.jsx
+│   │
+│   ├── Footer/
+│   └── Navbar/
+│
+├── config/
+│
 ├── context/
-├── lib/
+│   └── AuthContext.jsx
+│
+├── data/
+│
+├── layouts/
+│   └── AdminLayout.jsx
+│
 ├── pages/
-├── patients/
-├── reports/
+│   ├── admin/
+│   │   ├── AdminDashboard.jsx
+│   │   ├── Appointments.jsx
+│   │   ├── DataImporter.jsx
+│   │   ├── Departments.jsx
+│   │   ├── Doctors.jsx
+│   │   └── Patients.jsx
+│   │
+│   ├── About.jsx
+│   ├── AppointmentSuccess.jsx
+│   ├── BookAppointment.jsx
+│   ├── DepartmentDetail.jsx
+│   ├── ForgotPassword.jsx
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── MyAppointments.jsx
+│   ├── Register.jsx
+│   └── Services.jsx
+│
 ├── routes/
-├── services/
-├── utils/
+│   ├── AdminRoute.jsx
+│   ├── AppRoutes.jsx
+│   └── ProtectedRoutes.jsx
+│
+├── scripts/
+│
+├── App.css
 ├── App.jsx
 ├── main.jsx
-└── index.css
-```
+└── index.css```
 
 ---
 
