@@ -1,6 +1,6 @@
 #  Aga Khan Hospital Management System (AKHMS)
 
-A modern, responsive Hospital Management System built with **React**, **Vite**, **Tailwind CSS v4**, **shadcn/ui**, and **Firebase**. The application is designed to streamline hospital operations by providing secure and efficient management of patients, medical staff, appointments, billing, pharmacy, laboratory services, and administrative tasks.
+A modern, responsive Hospital Management System built with **React**, **Vite**, **Tailwind CSS v4**, **shadcn/ui**, and **Firebase**. The application is designed to streamline hospital operations by providing secure and efficient management of patients, medical staff, appointments, and administrative tasks.
 
 
 ---
