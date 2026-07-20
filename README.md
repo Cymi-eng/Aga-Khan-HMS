@@ -45,30 +45,6 @@ A modern, responsive Hospital Management System built with **React**, **Vite**, 
 * Appointment status tracking
 * Doctor scheduling
 
-### Laboratory
-
-* Lab requests
-* Test results
-* Laboratory reports
-
-### Pharmacy
-
-* Prescription management
-* Medication inventory
-* Dispensing records
-
-### Billing
-
-* Invoice generation
-* Payment tracking
-* Billing history
-
-### Reports
-
-* Hospital statistics
-* Revenue reports
-* Patient reports
-* Appointment reports
 
 ---
 
