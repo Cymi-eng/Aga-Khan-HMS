@@ -4,10 +4,6 @@ import {
   Mail,
   MapPin,
   Clock,
-  // Facebook,
-  // Instagram,
-  // Twitter,
-  // Youtube,
 } from "lucide-react";
 
 export default function Footer() {
@@ -27,40 +23,6 @@ export default function Footer() {
             Exceptional healthcare through experienced specialists, advanced
             technology, and patient-centered care.
           </p>
-
-          <div className="flex items-center gap-3 mt-5">
-            <a
-              href="#"
-              aria-label="Facebook"
-              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-            >
-              {/* <Facebook size={15} /> */}
-            </a>
-
-            <a
-              href="#"
-              aria-label="Instagram"
-              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-            >
-              {/* <Instagram size={15} /> */}
-            </a>
-
-            <a
-              href="#"
-              aria-label="Twitter"
-              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-            >
-              {/* <Twitter size={15} /> */}
-            </a>
-
-            <a
-              href="#"
-              aria-label="YouTube"
-              className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-            >
-              {/* <Youtube size={15} /> */}
-            </a>
-          </div>
         </div>
 
         {/* QUICK LINKS */}
