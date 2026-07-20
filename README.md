@@ -186,12 +186,9 @@ npm run dev
 ##  User Roles
 
 * Administrator
-* Doctor
-* Nurse
 * Receptionist
-* Pharmacist
-* Laboratory Technician
-* Patient *(future enhancement)*
+
+* Patient
 
 ---
 
@@ -208,19 +205,10 @@ npm run dev
 ### Phase 2
 
 * Patient management
-* Doctor management
 * Appointment scheduling
 
 ### Phase 3
 
-* Laboratory
-* Pharmacy
-* Billing
-* Reports
-
-### Phase 4
-
-* Notifications
 * Analytics
 * Performance improvements
 * Responsive enhancements
